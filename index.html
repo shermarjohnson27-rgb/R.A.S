@@ -8,13 +8,81 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',system-ui,sans-serif;background:#FAFAF7;color:#18170F;min-height:100vh}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#D5D0C8;border-radius:2px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#D5D0C8;border-radius:2px}
 textarea:focus{outline:none;border-color:#1A5C3A!important}
 button{cursor:pointer;font-family:'DM Sans',system-ui,sans-serif}
-button:hover{opacity:0.92}
+button:hover{opacity:0.93}
 #root{display:flex;min-height:100vh}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes fillBar{from{width:0%}to{width:var(--tw)}}
+@keyframes toastIn{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateY(20px)}}
+@keyframes borderPulse{0%,100%{border-color:#FECACA}50%{border-color:#F87171}}
+@keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes dotPulse{0%,80%,100%{opacity:0.3}40%{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes heroMesh{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes glowRing{0%,100%{box-shadow:0 0 0 0 rgba(26,92,58,0.15)}50%{box-shadow:0 0 0 8px rgba(26,92,58,0)}}
+@keyframes typeGlow{0%,100%{border-color:#1A5C3A;box-shadow:0 0 0 0 rgba(26,92,58,0)}50%{border-color:#22C55E;box-shadow:0 0 12px 2px rgba(26,92,58,0.1)}}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(120px) rotate(720deg);opacity:0}}
+@keyframes countFlash{0%{color:#B91C1C}100%{color:#18170F}}
+@keyframes pulse2{0%,100%{opacity:0.7}50%{opacity:1}}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+
+.afu{animation:fadeUp 0.5s ease both}
+.asr{animation:slideRight 0.4s ease both}
+.asi{animation:scaleIn 0.4s ease both}
+.ch{transition:all 0.25s cubic-bezier(0.4,0,0.2,1)}.ch:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.06)}
+.chl{transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}.chl:hover{transform:translateY(-5px);box-shadow:0 12px 35px rgba(0,0,0,0.08)}
+.nb{transition:all 0.2s ease}.nb:hover{transform:translateX(3px)}
+.ra{animation:borderPulse 2s ease infinite}
+.bp{animation:badgePulse 2s ease infinite}
+.sb{background:linear-gradient(90deg,#1A5C3A 0%,#22C55E 50%,#1A5C3A 100%);background-size:200% 100%;animation:shimmer 2.5s ease infinite}
+.tg{animation:typeGlow 1.5s ease infinite}
+.te{animation:toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both}
+.tx{animation:toastOut 0.3s ease both}
+.fi{animation:float 3s ease infinite}
+.dl span{animation:dotPulse 1.4s ease infinite}.dl span:nth-child(2){animation-delay:0.2s}.dl span:nth-child(3){animation-delay:0.4s}
+.pf{animation:fillBar 1.2s cubic-bezier(0.4,0,0.2,1) both}
+.gr{animation:glowRing 2s ease infinite}
+
+.hero-mesh{
+  background:linear-gradient(135deg,#FAFAF7 0%,#ECFDF5 15%,#FFF7ED 30%,#FAFAF7 45%,#F0FDF4 60%,#FFFBEB 75%,#FAFAF7 100%);
+  background-size:400% 400%;animation:heroMesh 10s ease infinite;position:relative;overflow:hidden}
+.hero-mesh::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(circle at 30% 40%,rgba(26,92,58,0.04) 0%,transparent 50%),
+  radial-gradient(circle at 70% 60%,rgba(217,119,6,0.03) 0%,transparent 50%),
+  radial-gradient(circle at 50% 20%,rgba(67,56,202,0.02) 0%,transparent 50%);pointer-events:none}
+
+.ticker-wrap{overflow:hidden;background:linear-gradient(90deg,#1A5C3A,#15803D);padding:6px 0;position:relative}
+.ticker-wrap::before,.ticker-wrap::after{content:'';position:absolute;top:0;width:60px;height:100%;z-index:2}
+.ticker-wrap::before{left:0;background:linear-gradient(90deg,#1A5C3A,transparent)}
+.ticker-wrap::after{right:0;background:linear-gradient(90deg,transparent,#15803D)}
+.ticker{display:flex;gap:40px;animation:tickerScroll 30s linear infinite;white-space:nowrap;width:max-content}
+.ticker-item{color:rgba(255,255,255,0.9);font-size:11px;font-weight:500;display:flex;align-items:center;gap:6px}
+.ticker-dot{width:5px;height:5px;border-radius:50%;background:#4ADE80;animation:pulse2 2s ease infinite}
+
+.glass{background:rgba(255,255,255,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.5)}
+.glass-dark{background:rgba(26,92,58,0.05);backdrop-filter:blur(8px);border:1px solid rgba(26,92,58,0.1)}
+
+.gold-badge{background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:8px;font-weight:800;padding:3px 10px;border-radius:20;letter-spacing:1px}
+.trust-badge{display:inline-flex;align-items:center;gap:4px;background:#ECFDF5;border:1px solid #A7F3D0;padding:4px 10px;border-radius:20px;font-size:9px;font-weight:700;color:#047857}
+
+.confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;animation:confettiFall 1.5s ease forwards;pointer-events:none;z-index:300}
+
+.loss-counter{font-variant-numeric:tabular-nums;animation:countFlash 0.5s ease}
+
+.scarcity-bar{height:6px;border-radius:3px;background:#FEE2E2;overflow:hidden;position:relative}
+.scarcity-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#EF4444,#F97316);transition:width 1s ease}
+
+.testimonial-card{min-width:300px;scroll-snap-align:start}
+.testimonial-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding:4px}
+.testimonial-track::-webkit-scrollbar{display:none}
 </style>
 </head>
 <body>
@@ -23,451 +91,503 @@ button:hover{opacity:0.92}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
 <script type="text/babel">
-const { useState, useCallback } = React;
+const{useState,useCallback,useEffect,useRef}=React;
 
-const REVIEWS = [
-  { id:1, plat:"google", author:"Sarah Mitchell", rating:5, text:"Best dental cleaning I've ever had! Dr. Johnson was amazing and the staff was incredibly friendly. Highly recommend!", date:"Mar 30", status:"auto_replied", sentiment:"positive", reply:"Thank you so much, Sarah! Dr. Johnson and our team love hearing this. Your comfort is always our priority — see you next visit!", at:"10:02 AM" },
-  { id:2, plat:"google", author:"Marcus Davis", rating:1, text:"Terrible experience. Waited over an hour past my appointment. Receptionist was rude when I asked about the delay. Charged full amount despite shortened visit.", date:"Mar 30", status:"recovery", sentiment:"negative", stage:"alert_sent", priv:"Hi Marcus, this is the owner and I'm personally reaching out. Your experience was completely unacceptable. I've spoken with our front desk team about what happened. I'd like to offer you a complimentary visit and my direct number for future appointments. Would you be open to a quick call?" },
-  { id:3, plat:"yelp", author:"Jessica Torres", rating:4, text:"Great food and atmosphere! Tacos were incredible. Only 4 stars because of the 30-min wait on a Tuesday night. Would definitely come back.", date:"Mar 29", status:"auto_replied", sentiment:"positive", reply:"Thanks Jessica! Our tacos are our pride. We hear you on the wait — working on it. Can't wait to have you back!", at:"2:15 PM" },
-  { id:4, plat:"google", author:"David Chen", rating:2, text:"AC was fixed but technician tracked mud through my house. Also overcharged compared to the quote. Disappointed.", date:"Mar 29", status:"recovery", sentiment:"negative", stage:"response_ready", priv:"Hi David, I'm the owner and I want to personally apologize. Tracking mud into your home is inexcusable. I'm issuing a refund for the price difference immediately and sending our team back at no charge to clean up. Can I call you today?" },
-  { id:5, plat:"facebook", author:"Amanda Wright", rating:5, text:"My go-to salon for 2 years! Lisa always knows exactly what I want. The renovation looks beautiful.", date:"Mar 28", status:"auto_replied", sentiment:"positive", reply:"Amanda, you're the best! Lisa loves working with you!", at:"9:30 AM" },
-  { id:6, plat:"google", author:"Robert Kim", rating:3, text:"Decent gym, clean equipment. Gets really crowded 5-7pm and not enough squat racks. Considering switching.", date:"Mar 28", status:"pending", sentiment:"neutral" },
-  { id:7, plat:"yelp", author:"Nina Patel", rating:5, text:"Wedding cake was absolutely STUNNING. Everyone raving. Worth every penny!", date:"Mar 27", status:"auto_replied", sentiment:"positive", reply:"Nina, congratulations! So thrilled the cake was a hit!", at:"11:45 AM" },
-  { id:8, plat:"google", author:"Tommy Reeves", rating:1, text:"Found a hair in my food. Waiter shrugged. Manager never came over. Disgusting.", date:"Mar 27", status:"recovery", sentiment:"negative", stage:"owner_reviewing", priv:"Tommy, I cannot apologize enough. This is a serious failure. I've launched an immediate investigation. I want to offer a full refund plus dinner for two on me. Please call me directly." },
-  { id:9, plat:"facebook", author:"Lisa Huang", rating:4, text:"Great plants, knowledgeable staff. Prices higher than Home Depot but quality is worth it.", date:"Mar 26", status:"auto_replied", sentiment:"positive", reply:"Thanks Lisa! We hand-select every plant for quality!", at:"4:20 PM" },
-  { id:10, plat:"google", author:"Carlos Mendez", rating:5, text:"Fixed my transmission in 2 days when dealer said 2 weeks. Saved $800. Honest and fast.", date:"Mar 25", status:"review_requested", sentiment:"positive", reply:"Carlos, speed and fair pricing is what we do. Drive safe!", at:"8:50 AM" },
+const REVIEWS=[
+{id:1,plat:"google",author:"Sarah Mitchell",rating:5,text:"Best dental cleaning I've ever had! Dr. Johnson was amazing and the staff was incredibly friendly. Highly recommend!",date:"Mar 30",status:"auto_replied",sentiment:"positive",reply:"Thank you so much, Sarah! Dr. Johnson and our team love hearing this. Your comfort is always our priority \u2014 see you next visit!",at:"10:02 AM"},
+{id:2,plat:"google",author:"Marcus Davis",rating:1,text:"Terrible experience. Waited over an hour past my appointment. Receptionist was rude when I asked about the delay.",date:"Mar 30",status:"recovery",sentiment:"negative",stage:"alert_sent",priv:"Hi Marcus, this is the owner. Your experience was completely unacceptable. I\u2019ve spoken with our front desk team. I\u2019d like to offer you a complimentary visit and my direct number. Would you be open to a quick call?"},
+{id:3,plat:"yelp",author:"Jessica Torres",rating:4,text:"Great food and atmosphere! Tacos were incredible. Only 4 stars because of the 30-min wait on a Tuesday.",date:"Mar 29",status:"auto_replied",sentiment:"positive",reply:"Thanks Jessica! Our tacos are our pride. We hear you on the wait \u2014 working on it!",at:"2:15 PM"},
+{id:4,plat:"google",author:"David Chen",rating:2,text:"AC was fixed but technician tracked mud through my house. Also overcharged compared to the quote.",date:"Mar 29",status:"recovery",sentiment:"negative",stage:"response_ready",priv:"Hi David, I want to personally apologize. I\u2019m issuing a refund immediately and sending our team back at no charge to clean up. Can I call you today?"},
+{id:5,plat:"facebook",author:"Amanda Wright",rating:5,text:"My go-to salon for 2 years! Lisa always knows exactly what I want.",date:"Mar 28",status:"auto_replied",sentiment:"positive",reply:"Amanda, you\u2019re the best! Lisa loves working with you!",at:"9:30 AM"},
+{id:6,plat:"google",author:"Robert Kim",rating:3,text:"Decent gym, clean equipment. Gets really crowded 5-7pm. Considering switching.",date:"Mar 28",status:"pending",sentiment:"neutral"},
+{id:7,plat:"yelp",author:"Nina Patel",rating:5,text:"Wedding cake was absolutely STUNNING. Everyone raving. Worth every penny!",date:"Mar 27",status:"auto_replied",sentiment:"positive",reply:"Nina, congratulations! So thrilled the cake was a hit!",at:"11:45 AM"},
+{id:8,plat:"google",author:"Tommy Reeves",rating:1,text:"Found a hair in my food. Waiter shrugged. Manager never came over. Disgusting.",date:"Mar 27",status:"recovery",sentiment:"negative",stage:"owner_reviewing",priv:"Tommy, I cannot apologize enough. I want to offer a full refund plus dinner for two on me. Please call me directly."},
+{id:9,plat:"facebook",author:"Lisa Huang",rating:4,text:"Great plants, knowledgeable staff. Prices higher than Home Depot but quality is worth it.",date:"Mar 26",status:"auto_replied",sentiment:"positive",reply:"Thanks Lisa! We hand-select every plant for quality!",at:"4:20 PM"},
+{id:10,plat:"google",author:"Carlos Mendez",rating:5,text:"Fixed my transmission in 2 days when dealer said 2 weeks. Saved $800.",date:"Mar 25",status:"review_requested",sentiment:"positive",reply:"Carlos, speed and fair pricing is what we do!",at:"8:50 AM"},
 ];
 
-const COMPETITORS = [
-  { name: "Your Business", rating: 4.3, reviews: 127, trend: "+0.5" },
-  { name: "Mario's Kitchen", rating: 4.1, reviews: 89, trend: "+0.1" },
-  { name: "The Corner Spot", rating: 3.9, reviews: 203, trend: "-0.2" },
-  { name: "Downtown Grill", rating: 3.6, reviews: 54, trend: "0.0" },
+const COMPETITORS=[{name:"Your Business",rating:4.3,reviews:127,trend:"+0.5"},{name:"Mario's Kitchen",rating:4.1,reviews:89,trend:"+0.1"},{name:"The Corner Spot",rating:3.9,reviews:203,trend:"-0.2"},{name:"Downtown Grill",rating:3.6,reviews:54,trend:"0.0"}];
+
+const ACTIONS={
+alert_sent:[{i:"\u{1F4E7}",t:"Send private apology",p:"high"},{i:"\u{1F4DE}",t:"Call within 24 hours",p:"high"},{i:"\u{1F381}",t:"Offer 50% off next visit",p:"med"},{i:"\u{1F4AC}",t:"Post empathetic public reply",p:"high"}],
+response_ready:[{i:"\u2705",t:"Approve public response",p:"high"},{i:"\u{1F4E7}",t:"Send private resolution",p:"high"},{i:"\u{1F4B0}",t:"Issue partial refund",p:"med"},{i:"\u{1F4CB}",t:"Schedule team training",p:"low"}],
+owner_reviewing:[{i:"\u{1F6A8}",t:"Respond within 2 hours",p:"high"},{i:"\u{1F4E7}",t:"Send personal apology",p:"high"},{i:"\u{1F381}",t:"Full refund + free service",p:"high"},{i:"\u{1F4CB}",t:"Investigate root cause",p:"high"}],
+};
+
+const PLANS=[
+{n:"Starter",pr:29,d:"AI Replies",feat:["AI responses","Google only","Email alerts","50 replies/mo","Tone training"],pop:false},
+{n:"Growth",pr:49,d:"Auto + Protection",feat:["Everything in Starter","Auto-reply 4-5 stars","Google+Yelp+Facebook","SMS+Email alerts","Unlimited replies","Negative alerts"],pop:true},
+{n:"Empire",pr:99,d:"Full Revenue System",feat:["Everything in Growth","Recovery + Private Messages","Revenue Impact Calculator","Competitor Intelligence","Review Growth Engine","Multi-location","White-label"],pop:false},
 ];
 
-const ACTIONS = {
-  alert_sent: [{ i:"\u{1F4E7}",t:"Send private apology",p:"high" },{ i:"\u{1F4DE}",t:"Call within 24 hours",p:"high" },{ i:"\u{1F381}",t:"Offer 50% off next visit",p:"med" },{ i:"\u{1F4AC}",t:"Post empathetic public reply",p:"high" }],
-  response_ready: [{ i:"\u2705",t:"Approve public response",p:"high" },{ i:"\u{1F4E7}",t:"Send private resolution",p:"high" },{ i:"\u{1F4B0}",t:"Issue partial refund",p:"med" },{ i:"\u{1F4CB}",t:"Schedule team training",p:"low" }],
-  owner_reviewing: [{ i:"\u{1F6A8}",t:"Respond within 2 hours",p:"high" },{ i:"\u{1F4E7}",t:"Send personal apology + offer",p:"high" },{ i:"\u{1F381}",t:"Full refund + free service",p:"high" },{ i:"\u{1F4CB}",t:"Investigate root cause",p:"high" }],
-};
-
-const PLANS = [
-  { n:"Starter",pr:29,d:"AI Replies",feat:["AI responses","Google only","Email alerts","50 replies/mo","Tone training"],pop:false },
-  { n:"Growth",pr:49,d:"Auto + Protection",feat:["Everything in Starter","Auto-reply 4-5 stars","Google+Yelp+Facebook","SMS+Email alerts","Unlimited replies","Negative alerts"],pop:true },
-  { n:"Empire",pr:99,d:"Full Revenue System",feat:["Everything in Growth","Recovery + Private Messages","Revenue Impact Calculator","Competitor Intelligence","Review Growth Engine","Multi-location","White-label"],pop:false },
+const TESTIMONIALS=[
+{name:"Maria G.",biz:"Maria\u2019s Kitchen",loc:"Austin, TX",stars:5,text:"R.A.S. took us from 3.4 to 4.6 stars in 4 months. Revenue jumped 22%. This thing pays for itself 50x over.",avatar:"\u{1F469}\u200D\u{1F373}",gain:"+1.2 stars",rev:"+$4,200/mo"},
+{name:"James T.",biz:"Elite Auto Care",loc:"Miami, FL",stars:5,text:"A 1-star review almost killed us. R.A.S. caught it in 3 minutes, drafted the perfect response, and we won the customer back.",avatar:"\u{1F468}\u200D\u{1F527}",gain:"+0.8 stars",rev:"+$2,800/mo"},
+{name:"Dr. Sarah K.",biz:"Bright Smile Dental",loc:"Denver, CO",stars:5,text:"We went from 67 reviews to 340+ in 8 months. New patients say they found us because of our Google rating.",avatar:"\u{1F469}\u200D\u2695\uFE0F",gain:"+0.9 stars",rev:"+$8,100/mo"},
+{name:"Tony R.",biz:"Tony\u2019s Barbershop",loc:"Brooklyn, NY",stars:5,text:"I don\u2019t even think about reviews anymore. R.A.S. handles everything. I just cut hair and make money.",avatar:"\u{1F488}",gain:"+0.6 stars",rev:"+$1,900/mo"},
+{name:"Linda W.",biz:"Serenity Spa",loc:"Scottsdale, AZ",stars:5,text:"The recovery system saved a wedding party booking worth $3,000. One bad review almost cost us everything.",avatar:"\u{1F9D6}\u200D\u2640\uFE0F",gain:"+1.1 stars",rev:"+$5,400/mo"},
 ];
 
-const Stars = ({c, s=13}) => {
-  return React.createElement('span', {style:{display:"inline-flex",gap:1}},
-    [1,2,3,4,5].map(i =>
-      React.createElement('svg', {key:i, width:s, height:s, viewBox:"0 0 24 24", fill:i<=c?"#D97706":"#E5E7EB", stroke:"none"},
-        React.createElement('polygon', {points:"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"})
-      )
-    )
-  );
-};
+const TICKER_ITEMS=[
+"\u{1F389} Tony\u2019s Barbershop just got a 5-star auto-reply","\u{1F6E1}\uFE0F Maria\u2019s Kitchen recovered a 1-star review","\u{1F680} Elite Auto Care hit 200 reviews","\u2B50 Bright Smile Dental reached 4.8 stars","\u{1F4AC} Serenity Spa auto-replied in 12 seconds","\u{1F4B0} R.A.S. generated $4,200/mo for a restaurant in Austin","\u{1F389} New signup: Fresh Cuts Barbershop, Atlanta","\u{1F6E1}\uFE0F Recovery win: Customer changed 1-star to 5-star","\u2B50 Milestone: 2,847 businesses now using R.A.S.","\u{1F680} 94% of negative reviews recovered this month",
+];
 
-const PI = ({p}) => {
-  const m = {google:{b:"#4285F4",l:"G"},yelp:{b:"#D32323",l:"Y"},facebook:{b:"#1877F2",l:"f"}};
-  const x = m[p]||m.google;
-  return <span style={{background:x.b,color:"#fff",fontSize:9,fontWeight:800,width:22,height:22,borderRadius:6,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{x.l}</span>;
-};
+function CountUp({target,prefix="",suffix="",duration=1200,decimals=0}){
+const[val,setVal]=useState(0);const ref=useRef(null);
+useEffect(()=>{const num=parseFloat(target);if(isNaN(num)){setVal(target);return}
+const st=performance.now();
+const step=(now)=>{const p=Math.min((now-st)/duration,1);const e=1-Math.pow(1-p,3);
+setVal(decimals>0?(e*num).toFixed(decimals):Math.round(e*num));
+if(p<1)ref.current=requestAnimationFrame(step)};
+ref.current=requestAnimationFrame(step);return()=>cancelAnimationFrame(ref.current)},[target,duration,decimals]);
+return<span>{prefix}{typeof val==='number'?val.toLocaleString():val}{suffix}</span>}
 
-const Pill = ({t, children}) => {
-  const c = {auto_replied:{bg:"#ECFDF5",c:"#047857",b:"#A7F3D0"},pending:{bg:"#FFFBEB",c:"#A16207",b:"#FDE68A"},recovery:{bg:"#FEF2F2",c:"#B91C1C",b:"#FECACA"},review_requested:{bg:"#EEF2FF",c:"#4338CA",b:"#C7D2FE"}};
-  const s = c[t]||c.pending;
-  return <span style={{background:s.bg,color:s.c,border:`1px solid ${s.b}`,fontSize:9,fontWeight:700,padding:"2px 9px",borderRadius:20}}>{children}</span>;
-};
+function LossCounter({monthlyRev,gain}){
+const[secs,setSecs]=useState(0);
+useEffect(()=>{const iv=setInterval(()=>setSecs(s=>s+1),1000);return()=>clearInterval(iv)},[]);
+const dailyLoss=Math.round(monthlyRev*parseFloat(gain)*0.07/30);
+const lostSoFar=Math.round(dailyLoss/86400*secs);
+return<span className="loss-counter">${lostSoFar.toLocaleString()}</span>}
 
-const TM = {positive:{e:"\u{1F60A}",l:"Warm",c:"#047857"},neutral:{e:"\u{1F91D}",l:"Attentive",c:"#A16207"},negative:{e:"\u{1F6E1}\uFE0F",l:"Empathetic",c:"#B91C1C"}};
+function Confetti({active}){
+if(!active)return null;
+const colors=["#1A5C3A","#D97706","#4338CA","#EF4444","#22C55E","#F59E0B"];
+return<>{Array.from({length:24}).map((_,i)=>(
+<div key={i} className="confetti-piece" style={{left:`${10+Math.random()*80}%`,top:`${Math.random()*20}%`,background:colors[i%colors.length],animationDelay:`${Math.random()*0.5}s`,borderRadius:Math.random()>0.5?"50%":"2px",width:Math.random()>0.5?6:10,height:Math.random()>0.5?10:6}}/>
+))}</>}
 
-function RAS() {
-  const [reviews, setR] = useState(REVIEWS);
-  const [tab, setTab] = useState("landing");
-  const [sel, setSel] = useState(null);
-  const [ai, setAi] = useState("");
-  const [typ, setTyp] = useState(false);
-  const [ed, setEd] = useState("");
-  const [filt, setFilt] = useState("all");
-  const [toast, setT] = useState("");
-  const [msgT, setMT] = useState("public");
-  const [niche, setN] = useState("restaurant");
-  const [monthlyRev, setMR] = useState(30000);
+function Stagger({children,base=0,gap=80}){
+return React.Children.map(children,(child,i)=>{if(!child)return null;return<div className="afu" style={{animationDelay:`${base+i*gap}ms`}}>{child}</div>})}
 
-  const s = {
-    total: reviews.length,
-    auto: reviews.filter(r=>r.status==="auto_replied").length,
-    rec: reviews.filter(r=>r.status==="recovery").length,
-    avg: (reviews.reduce((a,r)=>a+r.rating,0)/reviews.length).toFixed(1),
-    rate: Math.round((reviews.filter(r=>r.reply).length/reviews.length)*100),
-    req: reviews.filter(r=>r.status==="review_requested").length
-  };
-  const jR = 3.8;
-  const gain = (parseFloat(s.avg)-jR).toFixed(1);
-  const revImpactLow = Math.round(monthlyRev*(parseFloat(gain)/1)*0.05);
-  const revImpactHigh = Math.round(monthlyRev*(parseFloat(gain)/1)*0.09);
-  const list = filt==="all"?reviews:filt==="needs"?reviews.filter(r=>r.status==="pending"||r.status==="recovery"):reviews.filter(r=>r.status===filt);
-  const flash = m => { setT(m); setTimeout(()=>setT(""),3500); };
+const Stars=({c,s=13})=><span style={{display:"inline-flex",gap:1}}>{[1,2,3,4,5].map(i=><svg key={i} width={s} height={s} viewBox="0 0 24 24" fill={i<=c?"#D97706":"#E5E7EB"} stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}</span>;
+const PI=({p})=>{const m={google:{b:"#4285F4",l:"G"},yelp:{b:"#D32323",l:"Y"},facebook:{b:"#1877F2",l:"f"}};const x=m[p]||m.google;return<span style={{background:x.b,color:"#fff",fontSize:9,fontWeight:800,width:22,height:22,borderRadius:6,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{x.l}</span>};
+const Pill=({t,children})=>{const c={auto_replied:{bg:"#ECFDF5",c:"#047857",b:"#A7F3D0"},pending:{bg:"#FFFBEB",c:"#A16207",b:"#FDE68A"},recovery:{bg:"#FEF2F2",c:"#B91C1C",b:"#FECACA"},review_requested:{bg:"#EEF2FF",c:"#4338CA",b:"#C7D2FE"}};const s=c[t]||c.pending;return<span style={{background:s.bg,color:s.c,border:`1px solid ${s.b}`,fontSize:9,fontWeight:700,padding:"2px 9px",borderRadius:20}}>{children}</span>};
+const TM={positive:{e:"\u{1F60A}",l:"Warm",c:"#047857"},neutral:{e:"\u{1F91D}",l:"Attentive",c:"#A16207"},negative:{e:"\u{1F6E1}\uFE0F",l:"Empathetic",c:"#B91C1C"}};
 
-  const gen = useCallback(r => {
-    setSel(r); setTyp(true); setAi(""); setMT("public");
-    const t = {
-      positive: `Thank you so much, ${r.author.split(" ")[0]}! Your kind words mean the world to our team. We work hard every day to deliver this experience. Can't wait to welcome you back!`,
-      neutral: `Thank you for the honest feedback, ${r.author.split(" ")[0]}! We appreciate you sharing your experience. We're actively working on improvements. We'd love to exceed your expectations next time.`,
-      negative: `${r.author.split(" ")[0]}, we sincerely apologize. This falls below our standard and we take full responsibility. We've flagged this with our team. Please reach out at [phone/email] so we can make this right.`
-    };
-    const full = t[r.sentiment]||t.neutral;
-    let i = 0;
-    const iv = setInterval(()=>{ setAi(full.slice(0,i)); i+=3; if(i>full.length){ clearInterval(iv); setTyp(false); setEd(full); } },12);
-  },[]);
+function RAS(){
+const[reviews,setR]=useState(REVIEWS);
+const[tab,setTab]=useState("landing");
+const[sel,setSel]=useState(null);
+const[ai,setAi]=useState("");
+const[typ,setTyp]=useState(false);
+const[ed,setEd]=useState("");
+const[filt,setFilt]=useState("all");
+const[toast,setT]=useState("");
+const[toastOut,setTO]=useState(false);
+const[msgT,setMT]=useState("public");
+const[niche,setN]=useState("restaurant");
+const[monthlyRev,setMR]=useState(30000);
+const[tabKey,setTK]=useState(0);
+const[confetti,setCF]=useState(false);
 
-  const approve = () => {
-    setR(p=>p.map(r=>r.id===sel.id?{...r,status:"auto_replied",reply:ed,at:"Just now"}:r));
-    flash("Reply published!");
-    setSel(null);
-    setAi("");
-  };
+const switchTab=(t)=>{setTab(t);setTK(k=>k+1)};
+const s={total:reviews.length,auto:reviews.filter(r=>r.status==="auto_replied").length,rec:reviews.filter(r=>r.status==="recovery").length,avg:(reviews.reduce((a,r)=>a+r.rating,0)/reviews.length).toFixed(1),rate:Math.round((reviews.filter(r=>r.reply).length/reviews.length)*100),req:reviews.filter(r=>r.status==="review_requested").length};
+const jR=3.8;const gain=(parseFloat(s.avg)-jR).toFixed(1);
+const rLow=Math.round(monthlyRev*(parseFloat(gain)/1)*0.05);
+const rHigh=Math.round(monthlyRev*(parseFloat(gain)/1)*0.09);
+const list=filt==="all"?reviews:filt==="needs"?reviews.filter(r=>r.status==="pending"||r.status==="recovery"):reviews.filter(r=>r.status===filt);
+const flash=m=>{setTO(false);setT(m);setTimeout(()=>{setTO(true);setTimeout(()=>setT(""),400)},3000)};
 
-  const F = "'DM Sans',system-ui,sans-serif";
-  const D = "'Instrument Serif','Georgia',serif";
-  const bg = "#FAFAF7"; const cd = "#FFFFFF"; const bd = "#E5E2DC"; const tx = "#18170F"; const sb = "#8A8578"; const ac = "#1A5C3A";
+const gen=useCallback(r=>{
+setSel(r);setTyp(true);setAi("");setMT("public");
+const t={positive:`Thank you so much, ${r.author.split(" ")[0]}! Your kind words mean the world to our team. We work hard every day to deliver this experience. Can\u2019t wait to welcome you back!`,neutral:`Thank you for the honest feedback, ${r.author.split(" ")[0]}! We appreciate you sharing. We\u2019re actively working on improvements and would love to exceed your expectations next time.`,negative:`${r.author.split(" ")[0]}, we sincerely apologize. This falls below our standard and we take full responsibility. Please reach out at [phone/email] so we can make this right.`};
+const full=t[r.sentiment]||t.neutral;let i=0;
+const iv=setInterval(()=>{setAi(full.slice(0,i));i+=3;if(i>full.length){clearInterval(iv);setTyp(false);setEd(full)}},12);
+},[]);
 
-  const niches = {restaurant:"Restaurants",barber:"Barbershops",dental:"Dental Practices",contractor:"Contractors",gym:"Gyms"};
-  const navI = [{id:"landing",l:"Home"},{id:"dashboard",l:"Dashboard"},{id:"reviews",l:"Reviews"},{id:"recovery",l:"Recovery"},{id:"roi",l:"ROI & Intel"},{id:"growth",l:"Growth"},{id:"pricing",l:"Pricing"}];
+const approve=()=>{setR(p=>p.map(r=>r.id===sel.id?{...r,status:"auto_replied",reply:ed,at:"Just now"}:r));setCF(true);setTimeout(()=>setCF(false),2000);flash("Reply published!");setSel(null);setAi("")};
 
-  return (
-    <>
-      {/* SIDEBAR */}
-      <nav style={{width:218,background:cd,borderRight:`1px solid ${bd}`,padding:"22px 12px",display:"flex",flexDirection:"column",flexShrink:0}}>
-        <div style={{padding:"0 8px",marginBottom:32}}>
-          <div style={{fontSize:22,fontWeight:400,color:tx,fontFamily:D,letterSpacing:-0.5,lineHeight:1.1}}>R.A.S.</div>
-          <div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2.5,marginTop:2}}>REPUTATION AUTOMATED SYSTEM</div>
-          <div style={{fontSize:8,color:sb,letterSpacing:1,marginTop:1}}>FOR {niches[niche]?.toUpperCase()}</div>
-        </div>
-        {navI.map(n=>(
-          <button key={n.id} onClick={()=>setTab(n.id)} style={{background:tab===n.id?"#EFECEA":"transparent",border:"none",color:tab===n.id?ac:sb,padding:"9px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:tab===n.id?600:400,display:"flex",alignItems:"center",gap:8,marginBottom:1,fontFamily:F,textAlign:"left",width:"100%"}}>
-            {n.l}
-            {n.id==="recovery"&&s.rec>0&&<span style={{marginLeft:"auto",background:"#B91C1C",color:"#fff",fontSize:8,fontWeight:800,width:16,height:16,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center"}}>{s.rec}</span>}
-          </button>
-        ))}
-        <div style={{flex:1}}/>
-        <div style={{background:"#EFECEA",borderRadius:10,padding:14}}>
-          <div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:1.5,marginBottom:6}}>RATING PROGRESS</div>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
-            <span style={{fontSize:11,color:sb}}>{jR}</span>
-            <span style={{fontSize:10,color:ac}}>{"\u2192"}</span>
-            <span style={{fontSize:18,fontWeight:700,color:ac,fontFamily:D}}>{s.avg}</span>
-          </div>
-          <div style={{background:"#DBD8D2",borderRadius:3,height:5,marginTop:6,overflow:"hidden"}}>
-            <div style={{width:`${(parseFloat(s.avg)/5)*100}%`,height:"100%",background:ac,borderRadius:3}}/>
-          </div>
-          <div style={{fontSize:9,color:ac,fontWeight:600,marginTop:6,textAlign:"center"}}>+{gain} stars</div>
-        </div>
-      </nav>
+const F="'DM Sans',system-ui,sans-serif";const D="'Instrument Serif','Georgia',serif";
+const cd="#FFFFFF";const bd="#E5E2DC";const tx="#18170F";const sb="#8A8578";const ac="#1A5C3A";const gd="#D97706";
+const niches={restaurant:"Restaurants",barber:"Barbershops",dental:"Dental Practices",contractor:"Contractors",gym:"Gyms"};
+const navI=[{id:"landing",l:"Home",ic:"\u{1F3E0}"},{id:"dashboard",l:"Dashboard",ic:"\u{1F4CA}"},{id:"reviews",l:"Reviews",ic:"\u{1F4AC}"},{id:"recovery",l:"Recovery",ic:"\u{1F6E1}\uFE0F"},{id:"roi",l:"ROI & Intel",ic:"\u{1F4B0}"},{id:"growth",l:"Growth",ic:"\u{1F680}"},{id:"pricing",l:"Pricing",ic:"\u{1F4B3}"}];
 
-      {/* MAIN CONTENT */}
-      <main style={{flex:1,padding:"28px 36px",overflow:"auto",maxHeight:"100vh"}}>
+return(
+<>
+<Confetti active={confetti}/>
 
-        {/* LANDING */}
-        {tab==="landing"&&<div style={{maxWidth:660,margin:"0 auto",paddingTop:32}}>
-          <div style={{display:"flex",gap:6,marginBottom:20}}>
-            {Object.entries(niches).map(([k,v])=><button key={k} onClick={()=>setN(k)} style={{background:niche===k?ac:"#EFECEA",color:niche===k?"#fff":sb,border:"none",padding:"5px 14px",borderRadius:20,fontSize:10,fontWeight:600,cursor:"pointer",fontFamily:F}}>{v}</button>)}
-          </div>
-          <div style={{fontSize:9,color:ac,fontWeight:700,letterSpacing:2.5,marginBottom:10}}>BUILT FOR {niches[niche]?.toUpperCase()}</div>
-          <h1 style={{fontSize:38,fontWeight:400,color:tx,margin:"0 0 14px",fontFamily:D,lineHeight:1.15,letterSpacing:-0.5}}>We handle all your reviews automatically.</h1>
-          <p style={{fontSize:15,color:sb,margin:"0 0 8px",lineHeight:1.7}}>Responding to every customer. Protecting your reputation. Getting you more 5-star reviews.</p>
-          <p style={{fontSize:15,color:tx,margin:"0 0 28px",lineHeight:1.7,fontWeight:600}}>Without lifting a finger.</p>
-          <div style={{display:"flex",gap:10,marginBottom:40}}>
-            <button onClick={()=>setTab("dashboard")} style={{background:ac,color:"#fff",border:"none",padding:"14px 32px",borderRadius:8,fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:F}}>See It In Action</button>
-            <button onClick={()=>setTab("pricing")} style={{background:cd,color:tx,border:`1px solid ${bd}`,padding:"14px 32px",borderRadius:8,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:F}}>View Pricing</button>
-          </div>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14,marginBottom:32}}>
-            {[{i:"\u{1F916}",t:"Auto-Respond",d:"AI replies to every review in your voice. Positive auto-posts. Negative gets flagged."},{i:"\u{1F6E1}\uFE0F",t:"Reputation Shield",d:"Bad review? Instant alert + public reply + private resolution message to win them back."},{i:"\u{1F4C8}",t:"Revenue Impact",d:"Harvard-backed ROI calculator shows the exact dollar value of your rating improvement."}].map((f,i)=>(
-              <div key={i} style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:20}}>
-                <div style={{fontSize:26,marginBottom:8}}>{f.i}</div>
-                <div style={{fontSize:14,fontWeight:600,color:tx,marginBottom:4}}>{f.t}</div>
-                <div style={{fontSize:12,color:sb,lineHeight:1.6}}>{f.d}</div>
-              </div>
-            ))}
-          </div>
-          <div style={{background:"#EFECEA",borderRadius:14,padding:24,textAlign:"center"}}>
-            <div style={{fontSize:14,color:sb,fontFamily:D,fontStyle:"italic"}}>Not a tool. Not software.</div>
-            <div style={{fontSize:24,fontWeight:400,color:ac,fontFamily:D,margin:"6px 0 10px"}}>An Automated Reputation Growth System.</div>
-            <div style={{fontSize:12,color:sb}}>Starting at $29/month. 14-day free trial.</div>
-          </div>
-          <div style={{marginTop:28,padding:20,background:cd,border:`1px solid ${bd}`,borderRadius:12}}>
-            <div style={{fontSize:9,color:ac,fontWeight:700,letterSpacing:2,marginBottom:6}}>HARVARD BUSINESS SCHOOL RESEARCH</div>
-            <div style={{fontSize:14,fontFamily:D,color:tx,lineHeight:1.6}}>A one-star increase in online rating leads to a <b style={{color:ac}}>5-9% increase in revenue</b>. For a business making $30,000/month, a half-star improvement means <b style={{color:ac}}>$1,500-$2,700/month in additional revenue</b>.</div>
-            <div style={{fontSize:10,color:sb,marginTop:6}}>Source: Luca, M. — Harvard Business School Working Paper No. 12-016</div>
-          </div>
-        </div>}
+{/* SIDEBAR */}
+<nav style={{width:218,background:cd,borderRight:`1px solid ${bd}`,padding:"22px 12px",display:"flex",flexDirection:"column",flexShrink:0}}>
+<div className="afu" style={{padding:"0 8px",marginBottom:32}}>
+<div style={{fontSize:22,fontWeight:400,color:tx,fontFamily:D,letterSpacing:-0.5,lineHeight:1.1}}>R.A.S.</div>
+<div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2.5,marginTop:2}}>REPUTATION AUTOMATED SYSTEM</div>
+<div style={{fontSize:8,color:sb,letterSpacing:1,marginTop:1}}>FOR {niches[niche]?.toUpperCase()}</div>
+</div>
+{navI.map((n,i)=>(
+<button key={n.id} className="nb asr" onClick={()=>switchTab(n.id)} style={{animationDelay:`${i*50}ms`,background:tab===n.id?"#EFECEA":"transparent",border:"none",color:tab===n.id?ac:sb,padding:"9px 14px",borderRadius:8,fontSize:12,fontWeight:tab===n.id?600:400,display:"flex",alignItems:"center",gap:8,marginBottom:1,fontFamily:F,textAlign:"left",width:"100%"}}>
+<span style={{fontSize:14,width:20,textAlign:"center"}}>{n.ic}</span>{n.l}
+{n.id==="recovery"&&s.rec>0&&<span className="bp" style={{marginLeft:"auto",background:"#B91C1C",color:"#fff",fontSize:8,fontWeight:800,width:16,height:16,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center"}}>{s.rec}</span>}
+</button>))}
+<div style={{flex:1}}/>
 
-        {/* DASHBOARD */}
-        {tab==="dashboard"&&<>
-          <h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 4px",fontFamily:D}}>Command Center</h1>
-          <p style={{fontSize:12,color:sb,margin:"0 0 22px"}}>Real-time reputation intelligence</p>
-          {s.rec>0&&<div onClick={()=>setTab("recovery")} style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:12,padding:"12px 18px",marginBottom:16,cursor:"pointer",display:"flex",alignItems:"center",gap:12}}>
-            <span style={{fontSize:20}}>{"\u{1F6A8}"}</span>
-            <div style={{flex:1}}><div style={{fontSize:12,fontWeight:700,color:"#B91C1C"}}>{s.rec} Negative Reviews — Recovery Actions Ready</div><div style={{fontSize:11,color:sb}}>Public replies + private messages drafted</div></div>
-            <span style={{color:"#B91C1C",fontSize:11,fontWeight:600}}>View {"\u2192"}</span>
-          </div>}
-          <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:20}}>
-            {[{i:"\u{1F4AC}",v:s.total,l:"Reviews",u:"+3 this week",c:ac},{i:"\u{1F916}",v:s.rate+"%",l:"Response Rate",u:"Avg: 25%",c:"#2563EB"},{i:"\u2B50",v:s.avg,l:"Rating",u:`+${gain} since joining`,c:"#D97706"},{i:"\u{1F4B0}",v:`$${revImpactLow.toLocaleString()}`,l:"Est. Revenue Impact",u:`Up to $${revImpactHigh.toLocaleString()}/mo`,c:ac}].map((x,i)=>(
-              <div key={i} style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:"16px 18px"}}>
-                <div style={{fontSize:18,marginBottom:4}}>{x.i}</div>
-                <div style={{fontSize:24,fontWeight:400,color:tx,fontFamily:D,lineHeight:1}}>{x.v}</div>
-                <div style={{fontSize:10,color:sb,marginTop:3}}>{x.l}</div>
-                <div style={{fontSize:9,color:x.c,marginTop:2,fontWeight:600}}>{x.u}</div>
-              </div>
-            ))}
-          </div>
-          <div style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:18,marginBottom:16}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-              <span style={{fontSize:14,fontFamily:D,color:tx}}>Rating Improvement</span>
-              <Pill t="auto_replied">{"\u2191"} {gain} stars</Pill>
-            </div>
-            <div style={{display:"flex",gap:10,alignItems:"center"}}>
-              <div style={{textAlign:"center",padding:"10px 18px",background:"#FEF2F2",borderRadius:8}}>
-                <div style={{fontSize:8,color:"#B91C1C",fontWeight:700}}>BEFORE</div>
-                <div style={{fontSize:24,fontFamily:D,color:"#B91C1C"}}>{jR}</div>
-              </div>
-              <div style={{flex:1,height:3,background:"linear-gradient(90deg,#FECACA,#A7F3D0)",borderRadius:2}}/>
-              <div style={{textAlign:"center",padding:"10px 18px",background:"#ECFDF5",borderRadius:8}}>
-                <div style={{fontSize:8,color:ac,fontWeight:700}}>NOW</div>
-                <div style={{fontSize:24,fontFamily:D,color:ac}}>{s.avg}</div>
-              </div>
-            </div>
-          </div>
-          <div style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16}}>
-            <span style={{fontSize:14,fontFamily:D,color:tx}}>Recent Activity</span>
-            {reviews.filter(r=>r.reply).slice(0,4).map((r,i)=>(
-              <div key={r.id} style={{display:"flex",gap:10,padding:"10px 0",borderBottom:i<3?`1px solid ${bd}`:"none"}}>
-                <PI p={r.plat}/>
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}><span style={{fontSize:11,fontWeight:600}}>{r.author}</span><Stars c={r.rating} s={10}/><Pill t={r.status}>{r.status==="auto_replied"?"Replied":"Sent"}</Pill></div>
-                  <p style={{fontSize:10,color:sb,margin:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.reply}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>}
+{/* Live activity indicator */}
+<div className="afu" style={{animationDelay:"350ms",background:"#F0FDF4",border:"1px solid #BBF7D0",borderRadius:8,padding:"8px 10px",marginBottom:10}}>
+<div style={{display:"flex",alignItems:"center",gap:5,marginBottom:3}}>
+<div style={{width:6,height:6,borderRadius:"50%",background:"#22C55E",animation:"pulse2 1.5s ease infinite"}}/>
+<span style={{fontSize:8,color:ac,fontWeight:700}}>LIVE</span>
+</div>
+<div style={{fontSize:9,color:"#5C5950"}}>2,847 businesses active</div>
+<div style={{fontSize:9,color:ac,fontWeight:600}}>14 replies sent this minute</div>
+</div>
 
-        {/* REVIEWS */}
-        {tab==="reviews"&&<>
-          <h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 16px",fontFamily:D}}>Review Manager</h1>
-          <div style={{display:"flex",gap:6,marginBottom:14}}>
-            {[{id:"all",l:"All"},{id:"needs",l:"Needs Action"},{id:"auto_replied",l:"Replied"},{id:"recovery",l:"Recovery"}].map(f=><button key={f.id} onClick={()=>setFilt(f.id)} style={{background:filt===f.id?"#EFECEA":cd,border:`1px solid ${filt===f.id?"#C5C0B8":bd}`,color:filt===f.id?tx:sb,padding:"5px 13px",borderRadius:7,fontSize:10,fontWeight:600,cursor:"pointer",fontFamily:F}}>{f.l}</button>)}
-          </div>
-          <div style={{display:"flex",gap:16}}>
-            <div style={{flex:1}}>
-              {list.map(r=>{const tone=TM[r.sentiment];return(
-                <div key={r.id} onClick={()=>{setSel(r);setAi("");setEd("");setMT("public")}} style={{background:sel?.id===r.id?"#F3F1EC":cd,border:`1px solid ${sel?.id===r.id?"#C5C0B8":bd}`,borderRadius:12,padding:14,marginBottom:6,cursor:"pointer"}}>
-                  <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:5,flexWrap:"wrap"}}>
-                    <PI p={r.plat}/><span style={{fontSize:11,fontWeight:700}}>{r.author}</span><Stars c={r.rating} s={11}/>
-                    <span style={{background:`${tone.c}10`,color:tone.c,fontSize:8,padding:"2px 7px",borderRadius:4,fontWeight:600}}>{tone.e} {tone.l}</span>
-                    <Pill t={r.status}>{r.status==="auto_replied"?"\u2713 Replied":r.status==="recovery"?"\u{1F6E1}\uFE0F Recovery":r.status==="review_requested"?"\u{1F4E9} Sent":"\u231B Pending"}</Pill>
-                    <span style={{marginLeft:"auto",fontSize:9,color:"#B5B0A6"}}>{r.date}</span>
-                  </div>
-                  <p style={{fontSize:11,color:"#5C5950",margin:0,lineHeight:1.6}}>{r.text}</p>
-                  {r.reply&&<div style={{marginTop:8,padding:"8px 10px",background:"#F5FAF7",borderLeft:`2px solid ${ac}`,borderRadius:"0 6px 6px 0"}}>
-                    <div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:2}}>PUBLIC REPLY {"\u2022"} {r.at}</div>
-                    <p style={{fontSize:10,color:"#5C5950",margin:0,lineHeight:1.5}}>{r.reply}</p>
-                  </div>}
-                  {r.priv&&<div style={{marginTop:4,padding:"8px 10px",background:"#EEF2FF",borderLeft:"2px solid #4338CA",borderRadius:"0 6px 6px 0"}}>
-                    <div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:2}}>PRIVATE MESSAGE</div>
-                    <p style={{fontSize:10,color:"#5C5950",margin:0,lineHeight:1.5}}>{r.priv.slice(0,90)}...</p>
-                  </div>}
-                </div>
-              )})}
-            </div>
-            {sel&&(sel.status==="pending"||sel.status==="recovery")&&(
-              <div style={{width:340,flexShrink:0,background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:16,position:"sticky",top:0,maxHeight:"80vh",overflow:"auto"}}>
-                <div style={{fontSize:15,fontFamily:D,color:tx,marginBottom:12}}>AI Response Engine</div>
-                <div style={{background:"#F3F1EC",borderRadius:8,padding:10,marginBottom:10}}>
-                  <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:3}}><span style={{fontSize:10,fontWeight:600}}>{sel.author}</span><Stars c={sel.rating} s={10}/></div>
-                  <p style={{fontSize:10,color:sb,margin:0,lineHeight:1.5}}>{sel.text}</p>
-                </div>
-                {sel.sentiment==="negative"&&<div style={{display:"flex",gap:4,marginBottom:10}}>
-                  <button onClick={()=>setMT("public")} style={{flex:1,background:msgT==="public"?ac:"#EFECEA",color:msgT==="public"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u{1F4AC}"} Public</button>
-                  <button onClick={()=>setMT("private")} style={{flex:1,background:msgT==="private"?"#4338CA":"#EFECEA",color:msgT==="private"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u{1F4E7}"} Private</button>
-                </div>}
-                {msgT==="private"&&sel.priv?<>
-                  <div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:4}}>PRIVATE RESOLUTION MESSAGE</div>
-                  <textarea value={sel.priv} readOnly style={{width:"100%",minHeight:120,background:"#F6F5FF",border:"1px solid #C7D2FE",borderRadius:8,padding:10,color:tx,fontSize:11,lineHeight:1.6,fontFamily:F,boxSizing:"border-box",resize:"vertical"}}/>
-                  <button onClick={()=>flash("Private message sent!")} style={{width:"100%",background:"#4338CA",border:"none",color:"#fff",padding:"9px",borderRadius:8,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:F,marginTop:8}}>{"\u{1F4E7}"} Send Private Message</button>
-                </>:<>
-                  {!ai&&!typ&&<button onClick={()=>gen(sel)} style={{width:"100%",background:ac,border:"none",color:"#fff",padding:"10px",borderRadius:8,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u26A1"} Generate Reply</button>}
-                  {(ai||typ)&&<>
-                    <div style={{fontSize:8,color:typ?ac:sb,fontWeight:700,marginBottom:4}}>{typ?"GENERATING...":"\u2713 READY"}</div>
-                    <textarea value={typ?ai:ed} onChange={e=>setEd(e.target.value)} disabled={typ} style={{width:"100%",minHeight:110,background:"#F9F8F6",border:`1px solid ${bd}`,borderRadius:8,padding:10,color:tx,fontSize:11,lineHeight:1.6,fontFamily:F,boxSizing:"border-box",resize:"vertical"}}/>
-                    {!typ&&<div style={{display:"flex",gap:6,marginTop:8}}>
-                      <button onClick={approve} style={{flex:1,background:ac,border:"none",color:"#fff",padding:"9px",borderRadius:7,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u2713"} Publish</button>
-                      <button onClick={()=>gen(sel)} style={{background:"#EFECEA",border:`1px solid ${bd}`,color:sb,padding:"9px 12px",borderRadius:7,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:F}}>{"\u21BB"}</button>
-                    </div>}
-                  </>}
-                </>}
-              </div>
-            )}
-          </div>
-        </>}
+<div className="afu" style={{animationDelay:"400ms",background:"#EFECEA",borderRadius:10,padding:14}}>
+<div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:1.5,marginBottom:6}}>RATING PROGRESS</div>
+<div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
+<span style={{fontSize:11,color:sb}}>{jR}</span><span style={{fontSize:10,color:ac}}>{"\u2192"}</span><span style={{fontSize:18,fontWeight:700,color:ac,fontFamily:D}}>{s.avg}</span>
+</div>
+<div style={{background:"#DBD8D2",borderRadius:3,height:5,marginTop:6,overflow:"hidden"}}>
+<div className="sb pf" style={{"--tw":`${(parseFloat(s.avg)/5)*100}%`,height:"100%",borderRadius:3}}/></div>
+<div style={{fontSize:9,color:ac,fontWeight:600,marginTop:6,textAlign:"center"}}>+{gain} stars</div>
+</div>
+</nav>
 
-        {/* RECOVERY */}
-        {tab==="recovery"&&<>
-          <h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 20px",fontFamily:D}}>Negative Review Recovery</h1>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:20}}>
-            {[{s:"alert_sent",l:"Alert Sent",i:"\u{1F6A8}",c:"#B91C1C"},{s:"response_ready",l:"Ready",i:"\u{1F4DD}",c:"#D97706"},{s:"owner_reviewing",l:"Reviewing",i:"\u{1F441}\uFE0F",c:"#2563EB"}].map(x=>(
-              <div key={x.s} style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16,textAlign:"center"}}>
-                <div style={{fontSize:24}}>{x.i}</div>
-                <div style={{fontSize:20,fontFamily:D,color:tx}}>{reviews.filter(r=>r.stage===x.s).length}</div>
-                <div style={{fontSize:11,fontWeight:700,color:x.c}}>{x.l}</div>
-              </div>
-            ))}
-          </div>
-          {reviews.filter(r=>r.status==="recovery").map(r=>(
-            <div key={r.id} style={{background:cd,border:"1px solid #FECACA",borderRadius:14,padding:18,marginBottom:10}}>
-              <div style={{display:"flex",justifyContent:"space-between",marginBottom:10}}>
-                <div>
-                  <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4}}><PI p={r.plat}/><span style={{fontSize:12,fontWeight:700}}>{r.author}</span><Stars c={r.rating} s={11}/></div>
-                  <p style={{fontSize:11,color:"#5C5950",margin:0,lineHeight:1.6,maxWidth:440}}>{r.text}</p>
-                </div>
-                <button onClick={()=>{setSel(r);setTab("reviews");setAi("");setEd("")}} style={{background:"#FEF2F2",border:"1px solid #FECACA",color:"#B91C1C",padding:"6px 12px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F,height:"fit-content"}}>Respond {"\u2192"}</button>
-              </div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10}}>
-                <div style={{background:"#F5FAF7",border:"1px solid #A7F3D0",borderRadius:8,padding:10}}>
-                  <div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:3}}>{"\u{1F4AC}"} PUBLIC REPLY</div>
-                  <div style={{fontSize:10,color:"#5C5950"}}>Empathetic public response drafted</div>
-                </div>
-                <div style={{background:"#F6F5FF",border:"1px solid #C7D2FE",borderRadius:8,padding:10}}>
-                  <div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:3}}>{"\u{1F4E7}"} PRIVATE MESSAGE</div>
-                  <div style={{fontSize:10,color:"#5C5950"}}>{r.priv?r.priv.slice(0,70)+"...":"Resolution message ready"}</div>
-                </div>
-              </div>
-              <div style={{background:"#FAFAF7",border:`1px solid ${bd}`,borderRadius:8,padding:12}}>
-                <div style={{fontSize:8,color:"#D97706",fontWeight:700,letterSpacing:1,marginBottom:8}}>SUGGESTED ACTIONS</div>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
-                  {(ACTIONS[r.stage]||[]).map((a,j)=>(
-                    <div key={j} style={{display:"flex",alignItems:"center",gap:6,padding:"6px 10px",borderRadius:6,background:a.p==="high"?"#FEF2F2":cd,border:`1px solid ${a.p==="high"?"#FECACA":bd}`,cursor:"pointer"}}>
-                      <span style={{fontSize:13}}>{a.i}</span>
-                      <div><div style={{fontSize:10,color:tx}}>{a.t}</div><div style={{fontSize:7,fontWeight:700,color:a.p==="high"?"#B91C1C":a.p==="med"?"#D97706":sb,textTransform:"uppercase"}}>{a.p}</div></div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </>}
+{/* MAIN */}
+<main key={tabKey} style={{flex:1,overflow:"auto",maxHeight:"100vh"}}>
 
-        {/* ROI & COMPETITOR INTEL */}
-        {tab==="roi"&&<>
-          <h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 20px",fontFamily:D}}>ROI & Competitor Intelligence</h1>
-          <div style={{background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22,marginBottom:16}}>
-            <div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2,marginBottom:10}}>REVENUE IMPACT CALCULATOR</div>
-            <div style={{fontSize:13,fontFamily:D,color:tx,marginBottom:14}}>Based on Harvard Business School research: 1 star = 5-9% revenue increase</div>
-            <div style={{marginBottom:14}}>
-              <div style={{fontSize:10,color:sb,fontWeight:600,marginBottom:4}}>Your monthly revenue (estimate)</div>
-              <div style={{display:"flex",gap:6}}>
-                {[15000,30000,50000,75000,100000].map(v=>(
-                  <button key={v} onClick={()=>setMR(v)} style={{background:monthlyRev===v?ac:"#EFECEA",color:monthlyRev===v?"#fff":sb,border:"none",padding:"6px 12px",borderRadius:6,fontSize:10,fontWeight:600,cursor:"pointer",fontFamily:F}}>${(v/1000)}K</button>
-                ))}
-              </div>
-            </div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>
-              <div style={{background:"#ECFDF5",borderRadius:10,padding:16,textAlign:"center"}}>
-                <div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:4}}>YOUR RATING GAIN</div>
-                <div style={{fontSize:28,fontFamily:D,color:ac}}>+{gain}</div>
-                <div style={{fontSize:9,color:sb}}>stars since joining</div>
-              </div>
-              <div style={{background:"#ECFDF5",borderRadius:10,padding:16,textAlign:"center"}}>
-                <div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:4}}>ESTIMATED MONTHLY IMPACT</div>
-                <div style={{fontSize:28,fontFamily:D,color:ac}}>${revImpactLow.toLocaleString()}</div>
-                <div style={{fontSize:9,color:sb}}>to ${revImpactHigh.toLocaleString()}/mo extra</div>
-              </div>
-              <div style={{background:"#ECFDF5",borderRadius:10,padding:16,textAlign:"center"}}>
-                <div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:4}}>ANNUAL IMPACT</div>
-                <div style={{fontSize:28,fontFamily:D,color:ac}}>${(revImpactLow*12).toLocaleString()}</div>
-                <div style={{fontSize:9,color:sb}}>to ${(revImpactHigh*12).toLocaleString()}/yr</div>
-              </div>
-            </div>
-            <div style={{marginTop:14,padding:12,background:"#F5FAF7",borderRadius:8,textAlign:"center"}}>
-              <span style={{fontSize:12,color:ac,fontWeight:700}}>You pay $99/mo {"\u2192"} R.A.S. generates ${revImpactLow.toLocaleString()}-${revImpactHigh.toLocaleString()}/mo.</span>
-              <span style={{fontSize:12,color:ac,fontWeight:600}}> That's a {Math.round(revImpactLow/99)}x-{Math.round(revImpactHigh/99)}x return.</span>
-            </div>
-          </div>
-          <div style={{background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22}}>
-            <div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2,marginBottom:10}}>COMPETITOR INTELLIGENCE</div>
-            <div style={{fontSize:13,fontFamily:D,color:tx,marginBottom:14}}>How you stack up against local competitors</div>
-            {COMPETITORS.map((c,i)=>(
-              <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 0",borderBottom:i<COMPETITORS.length-1?`1px solid ${bd}`:"none"}}>
-                <div style={{width:28,height:28,borderRadius:6,background:i===0?ac:"#EFECEA",color:i===0?"#fff":sb,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700}}>{i+1}</div>
-                <div style={{flex:1}}>
-                  <div style={{display:"flex",alignItems:"center",gap:8}}>
-                    <span style={{fontSize:13,fontWeight:i===0?700:500,color:i===0?ac:tx}}>{c.name}</span>
-                    {i===0&&<span style={{background:"#ECFDF5",color:ac,fontSize:8,fontWeight:700,padding:"2px 8px",borderRadius:10}}>YOU</span>}
-                  </div>
-                  <div style={{fontSize:10,color:sb}}>{c.reviews} reviews</div>
-                </div>
-                <div style={{textAlign:"right"}}>
-                  <div style={{display:"flex",alignItems:"center",gap:4}}>
-                    <Stars c={Math.round(c.rating)} s={12}/>
-                    <span style={{fontSize:16,fontFamily:D,fontWeight:400,color:i===0?ac:tx}}>{c.rating}</span>
-                  </div>
-                  <div style={{fontSize:10,color:parseFloat(c.trend)>0?ac:parseFloat(c.trend)<0?"#B91C1C":sb,fontWeight:600}}>{parseFloat(c.trend)>0?"+":""}{c.trend}</div>
-                </div>
-              </div>
-            ))}
-            <div style={{marginTop:14,padding:10,background:"#ECFDF5",borderRadius:8,textAlign:"center",fontSize:11,color:ac,fontWeight:600}}>
-              You're #1 in your area. R.A.S. is keeping you ahead.
-            </div>
-          </div>
-        </>}
+{/* SOCIAL PROOF TICKER */}
+{tab==="landing"&&<div className="ticker-wrap">
+<div className="ticker">
+{[...TICKER_ITEMS,...TICKER_ITEMS].map((t,i)=><div key={i} className="ticker-item"><div className="ticker-dot"/>{t}</div>)}
+</div></div>}
 
-        {/* GROWTH */}
-        {tab==="growth"&&<>
-          <h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 20px",fontFamily:D}}>Review Growth Engine</h1>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:20}}>
-            {[{v:s.req,l:"Requests Sent",c:"#4338CA"},{v:reviews.filter(r=>r.rating>=4).length,l:"Happy Customers",c:ac},{v:s.avg,l:"Current Rating",c:"#D97706"}].map((x,i)=>(
-              <div key={i} style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16,textAlign:"center"}}>
-                <div style={{fontSize:28,fontFamily:D,color:x.c}}>{x.v}</div>
-                <div style={{fontSize:10,color:sb}}>{x.l}</div>
-              </div>
-            ))}
-          </div>
-          {reviews.filter(r=>r.rating>=4&&r.status!=="review_requested").map(r=>(
-            <div key={r.id} style={{display:"flex",alignItems:"center",gap:10,background:cd,border:`1px solid ${bd}`,borderRadius:10,padding:"10px 14px",marginBottom:5}}>
-              <PI p={r.plat}/>
-              <div style={{flex:1}}><span style={{fontSize:11,fontWeight:600}}>{r.author}</span><Stars c={r.rating} s={10}/><p style={{fontSize:10,color:sb,margin:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",maxWidth:340}}>{r.text}</p></div>
-              <button onClick={()=>{setR(p=>p.map(x=>x.id===r.id?{...x,status:"review_requested"}:x));flash(`Sent to ${r.author}!`)}} style={{background:"#4338CA",border:"none",color:"#fff",padding:"6px 14px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u{1F680}"} Send</button>
-            </div>
-          ))}
-        </>}
+<div style={{padding:tab==="landing"?"0":"28px 36px"}}>
 
-        {/* PRICING */}
-        {tab==="pricing"&&<>
-          <div style={{textAlign:"center",marginBottom:28}}>
-            <div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2.5,marginBottom:6}}>R.A.S. FOR {niches[niche]?.toUpperCase()}</div>
-            <h1 style={{fontSize:30,fontWeight:400,color:tx,margin:0,fontFamily:D}}>Simple pricing. Serious results.</h1>
-            <p style={{fontSize:12,color:sb,margin:"6px 0 0"}}>14-day free trial. No credit card required.</p>
-          </div>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14,maxWidth:820,margin:"0 auto"}}>
-            {PLANS.map(p=>(
-              <div key={p.n} style={{background:cd,border:`1px solid ${p.pop?ac:bd}`,borderRadius:16,padding:22,position:"relative",transform:p.pop?"scale(1.03)":"none",boxShadow:p.pop?"0 8px 30px rgba(26,92,58,0.06)":"none"}}>
-                {p.pop&&<div style={{position:"absolute",top:-11,left:"50%",transform:"translateX(-50%)",background:ac,color:"#fff",fontSize:9,fontWeight:800,padding:"3px 14px",borderRadius:20,letterSpacing:1}}>MOST POPULAR</div>}
-                <div style={{fontSize:12,fontWeight:700,color:p.pop?ac:sb,marginBottom:4}}>{p.n}</div>
-                <div style={{display:"flex",alignItems:"baseline",gap:2,marginBottom:2}}><span style={{fontSize:38,fontFamily:D,color:tx,lineHeight:1}}>${p.pr}</span><span style={{fontSize:12,color:sb}}>/mo</span></div>
-                <div style={{fontSize:10,color:sb,marginBottom:16}}>{p.d}</div>
-                <button style={{width:"100%",padding:"10px",background:p.pop?ac:"#EFECEA",border:p.pop?"none":`1px solid ${bd}`,color:p.pop?"#fff":tx,borderRadius:8,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:F,marginBottom:14}}>Start Free Trial</button>
-                <div style={{borderTop:`1px solid ${bd}`,paddingTop:12}}>
-                  {p.feat.map((f,j)=><div key={j} style={{display:"flex",gap:6,alignItems:"flex-start",marginBottom:6}}><span style={{color:ac,fontSize:11,flexShrink:0}}>{"\u2713"}</span><span style={{fontSize:11,color:"#5C5950",lineHeight:1.4}}>{f}</span></div>)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </>}
-      </main>
+{/* ===== LANDING ===== */}
+{tab==="landing"&&<>
+{/* HERO */}
+<div className="hero-mesh" style={{padding:"48px 0 40px",textAlign:"center"}}>
+<div style={{maxWidth:700,margin:"0 auto",padding:"0 24px"}}>
 
-      {toast&&<div style={{position:"fixed",bottom:24,right:24,background:ac,color:"#fff",padding:"11px 22px",borderRadius:10,fontSize:12,fontWeight:700,boxShadow:"0 6px 20px rgba(26,92,58,0.15)",zIndex:200}}>{"\u2713"} {toast}</div>}
-    </>
-  );
+{/* Trust badges top */}
+<div className="afu" style={{display:"flex",justifyContent:"center",gap:8,marginBottom:24,flexWrap:"wrap"}}>
+<span className="trust-badge">{"\u2705"} 2,847+ Businesses</span>
+<span className="trust-badge">{"\u2B50"} 4.9/5 Rating</span>
+<span className="trust-badge">{"\u{1F6E1}\uFE0F"} 94% Recovery Rate</span>
+<span className="trust-badge" style={{background:"#FFFBEB",borderColor:"#FDE68A",color:"#A16207"}}>{"\u{1F3C6}"} #1 Reputation Tool 2026</span>
+</div>
+
+{/* Niche selector */}
+<div className="afu" style={{animationDelay:"100ms",display:"flex",justifyContent:"center",gap:6,marginBottom:24}}>
+{Object.entries(niches).map(([k,v])=><button key={k} onClick={()=>setN(k)} style={{background:niche===k?ac:"rgba(255,255,255,0.8)",color:niche===k?"#fff":sb,border:niche===k?"none":`1px solid ${bd}`,padding:"5px 14px",borderRadius:20,fontSize:10,fontWeight:600,fontFamily:F,transition:"all 0.3s",transform:niche===k?"scale(1.05)":"scale(1)"}}>{v}</button>)}
+</div>
+
+<div className="afu" style={{animationDelay:"150ms",fontSize:9,color:ac,fontWeight:700,letterSpacing:2.5,marginBottom:10}}>BUILT FOR {niches[niche]?.toUpperCase()}</div>
+
+<h1 className="afu" style={{animationDelay:"200ms",fontSize:44,fontWeight:400,color:tx,margin:"0 0 14px",fontFamily:D,lineHeight:1.12,letterSpacing:-0.5}}>
+Your reviews. <span style={{color:ac}}>Handled.</span><br/>Your reputation. <span style={{color:gd}}>Protected.</span>
+</h1>
+
+<p className="afu" style={{animationDelay:"300ms",fontSize:16,color:sb,margin:"0 auto 6px",lineHeight:1.7,maxWidth:520}}>AI responds to every review. Recovers negative ones. Gets you more 5-stars.</p>
+<p className="afu" style={{animationDelay:"350ms",fontSize:16,color:tx,margin:"0 0 8px",fontWeight:700}}>Without lifting a finger.</p>
+
+{/* Loss aversion */}
+<div className="afu" style={{animationDelay:"400ms",margin:"16px auto 28px",maxWidth:420}}>
+<div className="glass" style={{borderRadius:12,padding:"12px 18px",display:"inline-flex",alignItems:"center",gap:8}}>
+<span style={{fontSize:16}}>{"\u{1F4B8}"}</span>
+<div style={{textAlign:"left"}}>
+<div style={{fontSize:10,color:"#B91C1C",fontWeight:700}}>MONEY YOU'RE LOSING RIGHT NOW</div>
+<div style={{fontSize:18,fontFamily:D,color:"#B91C1C"}}><LossCounter monthlyRev={monthlyRev} gain={gain}/></div>
+<div style={{fontSize:9,color:sb}}>Every second without reputation management</div>
+</div>
+</div>
+</div>
+
+<div className="afu" style={{animationDelay:"450ms",display:"flex",justifyContent:"center",gap:10,marginBottom:14}}>
+<button onClick={()=>switchTab("dashboard")} className="gr" style={{background:ac,color:"#fff",border:"none",padding:"16px 36px",borderRadius:10,fontSize:15,fontWeight:700,fontFamily:F,transition:"all 0.3s"}}>See It In Action {"\u2192"}</button>
+<button onClick={()=>switchTab("pricing")} className="ch" style={{background:"rgba(255,255,255,0.9)",color:tx,border:`1px solid ${bd}`,padding:"16px 36px",borderRadius:10,fontSize:15,fontWeight:500,fontFamily:F}}>View Pricing</button>
+</div>
+
+<div className="afu" style={{animationDelay:"500ms",fontSize:10,color:sb}}>14-day free trial {"\u2022"} No credit card {"\u2022"} Cancel anytime</div>
+</div>
+</div>
+
+{/* STATS BAR */}
+<div style={{background:ac,padding:"18px 0"}}>
+<div style={{maxWidth:700,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,textAlign:"center"}}>
+{[{v:"2,847+",l:"Active Businesses"},{v:"1.2M+",l:"Reviews Managed"},{v:"94%",l:"Recovery Rate"},{v:"$12M+",l:"Revenue Generated"}].map((x,i)=>(
+<div key={i} className="afu" style={{animationDelay:`${600+i*100}ms`}}>
+<div style={{fontSize:22,fontFamily:D,color:"#fff"}}>{x.v}</div>
+<div style={{fontSize:9,color:"rgba(255,255,255,0.7)"}}>{x.l}</div>
+</div>))}
+</div>
+</div>
+
+<div style={{maxWidth:700,margin:"0 auto",padding:"0 24px"}}>
+
+{/* FEATURES */}
+<div style={{padding:"40px 0 32px"}}>
+<div style={{textAlign:"center",marginBottom:24}}>
+<div style={{fontSize:9,color:gd,fontWeight:700,letterSpacing:2}}>HOW IT WORKS</div>
+<div style={{fontSize:26,fontFamily:D,color:tx,marginTop:4}}>Three systems. One platform. Zero effort.</div>
+</div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14}}>
+{[{i:"\u{1F916}",t:"Auto-Respond",d:"AI replies to every review in your brand\u2019s voice. 4-5 stars auto-publish. Negatives get flagged instantly.",tag:"SAVES 10+ HRS/WEEK",tc:ac},{i:"\u{1F6E1}\uFE0F",t:"Reputation Shield",d:"Bad review? Instant alert + empathetic public reply + private resolution message to win them back.",tag:"94% RECOVERY RATE",tc:"#B91C1C"},{i:"\u{1F4C8}",t:"Revenue Engine",d:"Harvard-backed ROI calculator + competitor intelligence + automated review requests to grow your rating.",tag:"5-9% MORE REVENUE",tc:gd}].map((f,i)=>(
+<div key={i} className="chl afu" style={{animationDelay:`${800+i*120}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22,position:"relative",overflow:"hidden"}}>
+<div style={{position:"absolute",top:0,left:0,right:0,height:3,background:f.tc}}/>
+<div className="fi" style={{fontSize:30,marginBottom:10,animationDelay:`${i*400}ms`}}>{f.i}</div>
+<div style={{fontSize:15,fontWeight:700,color:tx,marginBottom:6}}>{f.t}</div>
+<div style={{fontSize:12,color:sb,lineHeight:1.6,marginBottom:12}}>{f.d}</div>
+<span style={{background:`${f.tc}12`,color:f.tc,fontSize:8,fontWeight:800,padding:"3px 10px",borderRadius:20,letterSpacing:0.5}}>{f.tag}</span>
+</div>))}
+</div>
+</div>
+
+{/* CASE STUDY */}
+<div className="afu" style={{animationDelay:"900ms",background:cd,border:`1px solid ${bd}`,borderRadius:16,padding:24,marginBottom:32,position:"relative",overflow:"hidden"}}>
+<div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,#B91C1C,${ac})`}}/>
+<div style={{fontSize:9,color:gd,fontWeight:700,letterSpacing:2,marginBottom:8}}>REAL CASE STUDY</div>
+<div style={{fontSize:20,fontFamily:D,color:tx,marginBottom:16}}>Maria\u2019s Kitchen \u2014 Austin, TX</div>
+<div style={{display:"grid",gridTemplateColumns:"1fr 40px 1fr",gap:14,alignItems:"center",marginBottom:16}}>
+<div style={{background:"#FEF2F2",borderRadius:12,padding:18,textAlign:"center"}}>
+<div style={{fontSize:8,color:"#B91C1C",fontWeight:700,marginBottom:4}}>BEFORE R.A.S.</div>
+<div style={{fontSize:36,fontFamily:D,color:"#B91C1C"}}>3.4</div>
+<div style={{fontSize:10,color:sb}}>67 reviews</div>
+<div style={{fontSize:10,color:"#B91C1C",fontWeight:600}}>$0 from reviews</div>
+</div>
+<div style={{textAlign:"center",fontSize:24,color:ac}}>{"\u2192"}</div>
+<div style={{background:"#ECFDF5",borderRadius:12,padding:18,textAlign:"center"}}>
+<div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:4}}>AFTER 4 MONTHS</div>
+<div style={{fontSize:36,fontFamily:D,color:ac}}>4.6</div>
+<div style={{fontSize:10,color:sb}}>340+ reviews</div>
+<div style={{fontSize:10,color:ac,fontWeight:600}}>+$4,200/mo revenue</div>
+</div>
+</div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+{[{v:"+1.2",l:"Star Increase"},{v:"273",l:"New Reviews"},{v:"$50K+",l:"Annual Impact"}].map((x,i)=>(
+<div key={i} style={{background:"#FAFAF7",borderRadius:8,padding:"10px",textAlign:"center"}}>
+<div style={{fontSize:18,fontFamily:D,color:ac,fontWeight:400}}>{x.v}</div>
+<div style={{fontSize:9,color:sb}}>{x.l}</div>
+</div>))}
+</div>
+</div>
+
+{/* TESTIMONIALS */}
+<div style={{marginBottom:32}}>
+<div style={{textAlign:"center",marginBottom:16}}>
+<div style={{fontSize:9,color:gd,fontWeight:700,letterSpacing:2}}>TRUSTED BY THOUSANDS</div>
+<div style={{fontSize:22,fontFamily:D,color:tx,marginTop:4}}>Business owners love R.A.S.</div>
+</div>
+<div className="testimonial-track">
+{TESTIMONIALS.map((t,i)=>(
+<div key={i} className="testimonial-card chl afu" style={{animationDelay:`${1000+i*100}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:18,flexShrink:0}}>
+<div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+<div style={{width:38,height:38,borderRadius:"50%",background:"#EFECEA",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{t.avatar}</div>
+<div>
+<div style={{fontSize:12,fontWeight:700,color:tx}}>{t.name}</div>
+<div style={{fontSize:10,color:sb}}>{t.biz} \u2022 {t.loc}</div>
+</div>
+</div>
+<Stars c={t.stars} s={12}/>
+<p style={{fontSize:11,color:"#5C5950",margin:"8px 0 10px",lineHeight:1.6,fontStyle:"italic"}}>\u201C{t.text}\u201D</p>
+<div style={{display:"flex",gap:6}}>
+<span style={{background:"#ECFDF5",color:ac,fontSize:9,fontWeight:700,padding:"3px 8px",borderRadius:6}}>{t.gain}</span>
+<span style={{background:"#FFFBEB",color:gd,fontSize:9,fontWeight:700,padding:"3px 8px",borderRadius:6}}>{t.rev}</span>
+</div>
+</div>))}
+</div>
+</div>
+
+{/* ANCHORING / COMPARISON */}
+<div className="afu" style={{marginBottom:32,background:cd,border:`1px solid ${bd}`,borderRadius:16,padding:24}}>
+<div style={{textAlign:"center",marginBottom:16}}>
+<div style={{fontSize:9,color:"#B91C1C",fontWeight:700,letterSpacing:2}}>COST COMPARISON</div>
+<div style={{fontSize:22,fontFamily:D,color:tx,marginTop:4}}>What it actually costs to manage reviews</div>
+</div>
+<div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12}}>
+{[{m:"Hire Someone",pr:"$3,000+",sub:"/month",items:["Part-time employee","Manual responses","No AI","No analytics","Still misses reviews"],bad:true},{m:"Do It Yourself",pr:"$0",sub:"(but...)",items:["10+ hours/week","Emotional responses","Missed reviews","No recovery system","Lost revenue"],bad:true},{m:"R.A.S.",pr:"$49",sub:"/month",items:["100% automated","AI-powered replies","Instant recovery","Revenue tracking","24/7 protection"],bad:false}].map((x,i)=>(
+<div key={i} style={{background:x.bad?"#FAFAF7":"#F0FDF4",border:`1px solid ${x.bad?bd:"#86EFAC"}`,borderRadius:12,padding:18,position:"relative",transform:!x.bad?"scale(1.03)":"none"}}>
+{!x.bad&&<div style={{position:"absolute",top:-10,left:"50%",transform:"translateX(-50%)",background:ac,color:"#fff",fontSize:8,fontWeight:800,padding:"3px 12px",borderRadius:20}}>BEST VALUE</div>}
+<div style={{fontSize:11,fontWeight:700,color:x.bad?sb:ac,marginBottom:4}}>{x.m}</div>
+<div style={{display:"flex",alignItems:"baseline",gap:2,marginBottom:10}}>
+<span style={{fontSize:28,fontFamily:D,color:x.bad?"#B91C1C":ac,textDecoration:x.bad&&i===0?"line-through":"none"}}>{x.pr}</span>
+<span style={{fontSize:10,color:sb}}>{x.sub}</span>
+</div>
+{x.items.map((item,j)=><div key={j} style={{display:"flex",gap:6,alignItems:"center",marginBottom:4}}>
+<span style={{fontSize:10,color:x.bad?"#B91C1C":ac}}>{x.bad?"\u2717":"\u2713"}</span>
+<span style={{fontSize:11,color:x.bad?"#8A8578":"#5C5950"}}>{item}</span>
+</div>)}
+</div>))}
+</div>
+</div>
+
+{/* SCARCITY */}
+<div className="afu" style={{marginBottom:32,background:"linear-gradient(135deg,#FEF2F2,#FFFBEB)",border:"1px solid #FECACA",borderRadius:14,padding:20,textAlign:"center"}}>
+<div style={{fontSize:20}}>{"\u{1F525}"}</div>
+<div style={{fontSize:16,fontFamily:D,color:"#B91C1C",margin:"6px 0 4px"}}>Only 4 spots left in your area this month</div>
+<div style={{fontSize:11,color:sb,marginBottom:10}}>We limit signups per zip code to protect territory exclusivity</div>
+<div className="scarcity-bar" style={{maxWidth:300,margin:"0 auto 10px"}}>
+<div className="scarcity-fill" style={{width:"87%"}}/>
+</div>
+<div style={{fontSize:10,color:"#B91C1C",fontWeight:700}}>87% claimed \u2022 4 remaining</div>
+<button onClick={()=>switchTab("pricing")} style={{marginTop:12,background:"#B91C1C",color:"#fff",border:"none",padding:"12px 32px",borderRadius:8,fontSize:13,fontWeight:700,fontFamily:F}}>Claim Your Spot {"\u2192"}</button>
+</div>
+
+{/* HARVARD */}
+<div className="ch" style={{marginBottom:32,padding:22,background:cd,border:`1px solid ${bd}`,borderRadius:14}}>
+<div style={{fontSize:9,color:ac,fontWeight:700,letterSpacing:2,marginBottom:6}}>HARVARD BUSINESS SCHOOL RESEARCH</div>
+<div style={{fontSize:14,fontFamily:D,color:tx,lineHeight:1.6}}>A one-star increase in online rating leads to a <b style={{color:ac}}>5-9% increase in revenue</b>. For a business making $30,000/month, a half-star improvement means <b style={{color:gd}}>$1,500-$2,700/month in additional revenue</b>.</div>
+<div style={{fontSize:10,color:sb,marginTop:6}}>Source: Luca, M. \u2014 Harvard Business School Working Paper No. 12-016</div>
+</div>
+
+{/* GUARANTEE */}
+<div className="ch" style={{marginBottom:40,background:"#FFFBEB",border:"1px solid #FDE68A",borderRadius:14,padding:22,textAlign:"center"}}>
+<div style={{fontSize:30,marginBottom:6}}>{"\u{1F3C6}"}</div>
+<div style={{fontSize:18,fontFamily:D,color:gd}}>30-Day Money-Back Guarantee</div>
+<div style={{fontSize:12,color:sb,marginTop:4,maxWidth:420,margin:"4px auto 0"}}>If R.A.S. doesn\u2019t improve your rating within 30 days, we\u2019ll refund every penny. No questions asked. Zero risk.</div>
+</div>
+
+{/* FINAL CTA */}
+<div style={{textAlign:"center",paddingBottom:48}}>
+<div style={{fontSize:28,fontFamily:D,color:tx,marginBottom:6}}>Ready to automate your reputation?</div>
+<div style={{fontSize:13,color:sb,marginBottom:18}}>Join 2,847+ businesses already growing with R.A.S.</div>
+<button onClick={()=>switchTab("pricing")} className="gr" style={{background:ac,color:"#fff",border:"none",padding:"16px 44px",borderRadius:10,fontSize:16,fontWeight:700,fontFamily:F}}>Start Free Trial {"\u2192"}</button>
+<div style={{fontSize:10,color:sb,marginTop:8}}>14-day free trial \u2022 No credit card required</div>
+</div>
+</div>
+</>}
+
+{/* ===== DASHBOARD ===== */}
+{tab==="dashboard"&&<Stagger base={0} gap={60}>
+<div><h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 4px",fontFamily:D}}>Command Center</h1><p style={{fontSize:12,color:sb,margin:"0 0 22px"}}>Real-time reputation intelligence</p></div>
+{s.rec>0&&<div onClick={()=>switchTab("recovery")} className="ra ch" style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:12,padding:"12px 18px",marginBottom:16,cursor:"pointer",display:"flex",alignItems:"center",gap:12}}>
+<span style={{fontSize:20}}>{"\u{1F6A8}"}</span><div style={{flex:1}}><div style={{fontSize:12,fontWeight:700,color:"#B91C1C"}}>{s.rec} Negative Reviews \u2014 Recovery Actions Ready</div><div style={{fontSize:11,color:sb}}>Public replies + private messages drafted</div></div><span style={{color:"#B91C1C",fontSize:11,fontWeight:600}}>View {"\u2192"}</span></div>}
+<div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:20}}>
+{[{i:"\u{1F4AC}",v:s.total,l:"Reviews",u:"+3 this week",c:ac},{i:"\u{1F916}",v:s.rate,l:"Response Rate",u:"Avg: 25%",c:"#2563EB",suf:"%"},{i:"\u2B50",v:s.avg,l:"Rating",u:`+${gain} since joining`,c:gd,dec:1},{i:"\u{1F4B0}",v:rLow,l:"Est. Revenue Impact",u:`Up to $${rHigh.toLocaleString()}/mo`,c:ac,pre:"$"}].map((x,i)=>(
+<div key={i} className="chl afu" style={{animationDelay:`${200+i*100}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:"16px 18px"}}>
+<div style={{fontSize:18,marginBottom:4}}>{x.i}</div>
+<div style={{fontSize:24,fontWeight:400,color:tx,fontFamily:D,lineHeight:1}}><CountUp target={x.v} prefix={x.pre||""} suffix={x.suf||""} decimals={x.dec||0}/></div>
+<div style={{fontSize:10,color:sb,marginTop:3}}>{x.l}</div><div style={{fontSize:9,color:x.c,marginTop:2,fontWeight:600}}>{x.u}</div></div>))}
+</div>
+<div className="ch" style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:18,marginBottom:16}}>
+<div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{fontSize:14,fontFamily:D,color:tx}}>Rating Improvement</span><Pill t="auto_replied">{"\u2191"} {gain} stars</Pill></div>
+<div style={{display:"flex",gap:10,alignItems:"center"}}>
+<div className="asi" style={{animationDelay:"700ms",textAlign:"center",padding:"10px 18px",background:"#FEF2F2",borderRadius:8}}><div style={{fontSize:8,color:"#B91C1C",fontWeight:700}}>BEFORE</div><div style={{fontSize:24,fontFamily:D,color:"#B91C1C"}}>{jR}</div></div>
+<div style={{flex:1,height:3,background:"linear-gradient(90deg,#FECACA,#A7F3D0)",borderRadius:2,overflow:"hidden"}}><div className="sb" style={{width:"100%",height:"100%"}}/></div>
+<div className="asi" style={{animationDelay:"900ms",textAlign:"center",padding:"10px 18px",background:"#ECFDF5",borderRadius:8}}><div style={{fontSize:8,color:ac,fontWeight:700}}>NOW</div><div style={{fontSize:24,fontFamily:D,color:ac}}>{s.avg}</div></div></div></div>
+<div style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16}}>
+<span style={{fontSize:14,fontFamily:D,color:tx}}>Recent Activity</span>
+{reviews.filter(r=>r.reply).slice(0,4).map((r,i)=>(
+<div key={r.id} className="ch" style={{display:"flex",gap:10,padding:"10px 0",borderBottom:i<3?`1px solid ${bd}`:"none"}}>
+<PI p={r.plat}/><div style={{flex:1,minWidth:0}}><div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}><span style={{fontSize:11,fontWeight:600}}>{r.author}</span><Stars c={r.rating} s={10}/><Pill t={r.status}>{r.status==="auto_replied"?"Replied":"Sent"}</Pill></div>
+<p style={{fontSize:10,color:sb,margin:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.reply}</p></div></div>))}
+</div>
+</Stagger>}
+
+{/* ===== REVIEWS ===== */}
+{tab==="reviews"&&<><div className="afu"><h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 16px",fontFamily:D}}>Review Manager</h1>
+<div style={{display:"flex",gap:6,marginBottom:14}}>{[{id:"all",l:"All"},{id:"needs",l:"Needs Action"},{id:"auto_replied",l:"Replied"},{id:"recovery",l:"Recovery"}].map(f=><button key={f.id} onClick={()=>setFilt(f.id)} style={{background:filt===f.id?"#EFECEA":cd,border:`1px solid ${filt===f.id?"#C5C0B8":bd}`,color:filt===f.id?tx:sb,padding:"5px 13px",borderRadius:7,fontSize:10,fontWeight:600,fontFamily:F,transition:"all 0.2s"}}>{f.l}</button>)}</div></div>
+<div style={{display:"flex",gap:16}}><div style={{flex:1}}>
+{list.map((r,idx)=>{const tone=TM[r.sentiment];return(
+<div key={r.id} className="ch afu" onClick={()=>{setSel(r);setAi("");setEd("");setMT("public")}} style={{animationDelay:`${idx*60}ms`,background:sel?.id===r.id?"#F3F1EC":cd,border:`1px solid ${sel?.id===r.id?"#C5C0B8":bd}`,borderRadius:12,padding:14,marginBottom:6,cursor:"pointer"}}>
+<div style={{display:"flex",alignItems:"center",gap:6,marginBottom:5,flexWrap:"wrap"}}>
+<PI p={r.plat}/><span style={{fontSize:11,fontWeight:700}}>{r.author}</span><Stars c={r.rating} s={11}/>
+<span style={{background:`${tone.c}10`,color:tone.c,fontSize:8,padding:"2px 7px",borderRadius:4,fontWeight:600}}>{tone.e} {tone.l}</span>
+<Pill t={r.status}>{r.status==="auto_replied"?"\u2713 Replied":r.status==="recovery"?"\u{1F6E1}\uFE0F Recovery":r.status==="review_requested"?"\u{1F4E9} Sent":"\u231B Pending"}</Pill>
+<span style={{marginLeft:"auto",fontSize:9,color:"#B5B0A6"}}>{r.date}</span></div>
+<p style={{fontSize:11,color:"#5C5950",margin:0,lineHeight:1.6}}>{r.text}</p>
+{r.reply&&<div style={{marginTop:8,padding:"8px 10px",background:"#F5FAF7",borderLeft:`2px solid ${ac}`,borderRadius:"0 6px 6px 0"}}><div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:2}}>PUBLIC REPLY \u2022 {r.at}</div><p style={{fontSize:10,color:"#5C5950",margin:0,lineHeight:1.5}}>{r.reply}</p></div>}
+{r.priv&&<div style={{marginTop:4,padding:"8px 10px",background:"#EEF2FF",borderLeft:"2px solid #4338CA",borderRadius:"0 6px 6px 0"}}><div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:2}}>PRIVATE MESSAGE</div><p style={{fontSize:10,color:"#5C5950",margin:0,lineHeight:1.5}}>{r.priv.slice(0,90)}...</p></div>}
+</div>)})}
+</div>
+{sel&&(sel.status==="pending"||sel.status==="recovery")&&(
+<div className="asi" style={{width:340,flexShrink:0,background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:16,position:"sticky",top:0,maxHeight:"80vh",overflow:"auto"}}>
+<div style={{fontSize:15,fontFamily:D,color:tx,marginBottom:12}}>AI Response Engine</div>
+<div style={{background:"#F3F1EC",borderRadius:8,padding:10,marginBottom:10}}><div style={{display:"flex",gap:6,alignItems:"center",marginBottom:3}}><span style={{fontSize:10,fontWeight:600}}>{sel.author}</span><Stars c={sel.rating} s={10}/></div><p style={{fontSize:10,color:sb,margin:0,lineHeight:1.5}}>{sel.text}</p></div>
+{sel.sentiment==="negative"&&<div style={{display:"flex",gap:4,marginBottom:10}}>
+<button onClick={()=>setMT("public")} style={{flex:1,background:msgT==="public"?ac:"#EFECEA",color:msgT==="public"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,fontFamily:F,transition:"all 0.2s"}}>{"\u{1F4AC}"} Public</button>
+<button onClick={()=>setMT("private")} style={{flex:1,background:msgT==="private"?"#4338CA":"#EFECEA",color:msgT==="private"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,fontFamily:F,transition:"all 0.2s"}}>{"\u{1F4E7}"} Private</button></div>}
+{msgT==="private"&&sel.priv?<>
+<div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:4}}>PRIVATE RESOLUTION MESSAGE</div>
+<textarea value={sel.priv} readOnly style={{width:"100%",minHeight:120,background:"#F6F5FF",border:"1px solid #C7D2FE",borderRadius:8,padding:10,color:tx,fontSize:11,lineHeight:1.6,fontFamily:F,boxSizing:"border-box",resize:"vertical"}}/>
+<button onClick={()=>flash("Private message sent!")} className="ch" style={{width:"100%",background:"#4338CA",border:"none",color:"#fff",padding:"9px",borderRadius:8,fontSize:11,fontWeight:700,fontFamily:F,marginTop:8}}>{"\u{1F4E7}"} Send Private Message</button>
+</>:<>
+{!ai&&!typ&&<button onClick={()=>gen(sel)} className="gr" style={{width:"100%",background:ac,border:"none",color:"#fff",padding:"10px",borderRadius:8,fontSize:12,fontWeight:700,fontFamily:F}}>{"\u26A1"} Generate Reply</button>}
+{(ai||typ)&&<><div style={{fontSize:8,color:typ?ac:sb,fontWeight:700,marginBottom:4,display:"flex",alignItems:"center",gap:4}}>{typ?<><span>GENERATING</span><span className="dl"><span>.</span><span>.</span><span>.</span></span></>:"\u2713 READY"}</div>
+<textarea value={typ?ai:ed} onChange={e=>setEd(e.target.value)} disabled={typ} className={typ?"tg":""} style={{width:"100%",minHeight:110,background:"#F9F8F6",border:`1px solid ${bd}`,borderRadius:8,padding:10,color:tx,fontSize:11,lineHeight:1.6,fontFamily:F,boxSizing:"border-box",resize:"vertical",transition:"all 0.3s"}}/>
+{!typ&&<div className="afu" style={{display:"flex",gap:6,marginTop:8}}>
+<button onClick={approve} className="ch" style={{flex:1,background:ac,border:"none",color:"#fff",padding:"9px",borderRadius:7,fontSize:11,fontWeight:700,fontFamily:F}}>{"\u2713"} Publish</button>
+<button onClick={()=>gen(sel)} className="ch" style={{background:"#EFECEA",border:`1px solid ${bd}`,color:sb,padding:"9px 12px",borderRadius:7,fontSize:11,fontWeight:600,fontFamily:F}}>{"\u21BB"}</button></div>}</>}</>}
+</div>)}</div></>}
+
+{/* ===== RECOVERY ===== */}
+{tab==="recovery"&&<><div className="afu"><h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 20px",fontFamily:D}}>Negative Review Recovery</h1></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:20}}>
+{[{s:"alert_sent",l:"Alert Sent",i:"\u{1F6A8}",c:"#B91C1C"},{s:"response_ready",l:"Ready",i:"\u{1F4DD}",c:gd},{s:"owner_reviewing",l:"Reviewing",i:"\u{1F441}\uFE0F",c:"#2563EB"}].map((x,i)=>(
+<div key={x.s} className="chl afu" style={{animationDelay:`${i*100}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16,textAlign:"center"}}>
+<div className="fi" style={{fontSize:24,animationDelay:`${i*300}ms`}}>{x.i}</div>
+<div style={{fontSize:20,fontFamily:D,color:tx}}><CountUp target={reviews.filter(r=>r.stage===x.s).length}/></div>
+<div style={{fontSize:11,fontWeight:700,color:x.c}}>{x.l}</div></div>))}
+</div>
+{reviews.filter(r=>r.status==="recovery").map((r,idx)=>(
+<div key={r.id} className="ra ch afu" style={{animationDelay:`${300+idx*120}ms`,background:cd,border:"1px solid #FECACA",borderRadius:14,padding:18,marginBottom:10}}>
+<div style={{display:"flex",justifyContent:"space-between",marginBottom:10}}><div>
+<div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4}}><PI p={r.plat}/><span style={{fontSize:12,fontWeight:700}}>{r.author}</span><Stars c={r.rating} s={11}/></div>
+<p style={{fontSize:11,color:"#5C5950",margin:0,lineHeight:1.6,maxWidth:440}}>{r.text}</p></div>
+<button onClick={()=>{setSel(r);switchTab("reviews");setAi("");setEd("")}} className="ch" style={{background:"#FEF2F2",border:"1px solid #FECACA",color:"#B91C1C",padding:"6px 12px",borderRadius:7,fontSize:10,fontWeight:700,fontFamily:F,height:"fit-content"}}>Respond {"\u2192"}</button></div>
+<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10}}>
+<div className="ch" style={{background:"#F5FAF7",border:"1px solid #A7F3D0",borderRadius:8,padding:10}}><div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:3}}>{"\u{1F4AC}"} PUBLIC REPLY</div><div style={{fontSize:10,color:"#5C5950"}}>Empathetic response drafted</div></div>
+<div className="ch" style={{background:"#F6F5FF",border:"1px solid #C7D2FE",borderRadius:8,padding:10}}><div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:3}}>{"\u{1F4E7}"} PRIVATE MESSAGE</div><div style={{fontSize:10,color:"#5C5950"}}>{r.priv?r.priv.slice(0,70)+"...":"Ready"}</div></div></div>
+<div style={{background:"#FAFAF7",border:`1px solid ${bd}`,borderRadius:8,padding:12}}><div style={{fontSize:8,color:gd,fontWeight:700,letterSpacing:1,marginBottom:8}}>SUGGESTED ACTIONS</div>
+<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
+{(ACTIONS[r.stage]||[]).map((a,j)=>(<div key={j} className="ch" style={{display:"flex",alignItems:"center",gap:6,padding:"6px 10px",borderRadius:6,background:a.p==="high"?"#FEF2F2":cd,border:`1px solid ${a.p==="high"?"#FECACA":bd}`,cursor:"pointer"}}><span style={{fontSize:13}}>{a.i}</span><div><div style={{fontSize:10,color:tx}}>{a.t}</div><div style={{fontSize:7,fontWeight:700,color:a.p==="high"?"#B91C1C":a.p==="med"?gd:sb,textTransform:"uppercase"}}>{a.p}</div></div></div>))}</div></div></div>))}</>}
+
+{/* ===== ROI ===== */}
+{tab==="roi"&&<Stagger base={0} gap={80}>
+<h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 20px",fontFamily:D}}>ROI & Competitor Intelligence</h1>
+<div className="ch" style={{background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22,marginBottom:16}}>
+<div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2,marginBottom:10}}>REVENUE IMPACT CALCULATOR</div>
+<div style={{marginBottom:14}}><div style={{fontSize:10,color:sb,fontWeight:600,marginBottom:4}}>Your monthly revenue</div>
+<div style={{display:"flex",gap:6}}>{[15000,30000,50000,75000,100000].map(v=>(<button key={v} onClick={()=>setMR(v)} style={{background:monthlyRev===v?ac:"#EFECEA",color:monthlyRev===v?"#fff":sb,border:"none",padding:"6px 12px",borderRadius:6,fontSize:10,fontWeight:600,fontFamily:F,transition:"all 0.25s",transform:monthlyRev===v?"scale(1.08)":"scale(1)"}}>${(v/1000)}K</button>))}</div></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>
+{[{lb:"YOUR RATING GAIN",v:gain,pre:"+"},{lb:"MONTHLY IMPACT",v:rLow,pre:"$"},{lb:"ANNUAL IMPACT",v:rLow*12,pre:"$"}].map((x,i)=>(
+<div key={i} className="asi" style={{animationDelay:`${300+i*150}ms`,background:"#ECFDF5",borderRadius:10,padding:16,textAlign:"center"}}><div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:4}}>{x.lb}</div>
+<div style={{fontSize:28,fontFamily:D,color:ac}}><CountUp target={x.v} prefix={x.pre} decimals={String(x.v).includes(".")?1:0} duration={1500}/></div></div>))}</div>
+<div className="afu" style={{animationDelay:"700ms",marginTop:14,padding:12,background:"#F5FAF7",borderRadius:8,textAlign:"center"}}><span style={{fontSize:12,color:ac,fontWeight:700}}>You pay $99/mo {"\u2192"} R.A.S. generates ${rLow.toLocaleString()}-${rHigh.toLocaleString()}/mo.</span> <span style={{fontSize:12,color:ac,fontWeight:600}}>That\u2019s a {Math.round(rLow/99)}x-{Math.round(rHigh/99)}x return.</span></div></div>
+<div className="ch" style={{background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22}}>
+<div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2,marginBottom:10}}>COMPETITOR INTELLIGENCE</div>
+{COMPETITORS.map((c,i)=>(<div key={i} className="ch afu" style={{animationDelay:`${400+i*100}ms`,display:"flex",alignItems:"center",gap:14,padding:"12px 0",borderBottom:i<COMPETITORS.length-1?`1px solid ${bd}`:"none"}}>
+<div style={{width:28,height:28,borderRadius:6,background:i===0?ac:"#EFECEA",color:i===0?"#fff":sb,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700}}>{i+1}</div>
+<div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:13,fontWeight:i===0?700:500,color:i===0?ac:tx}}>{c.name}</span>{i===0&&<span style={{background:"#ECFDF5",color:ac,fontSize:8,fontWeight:700,padding:"2px 8px",borderRadius:10}}>YOU</span>}</div><div style={{fontSize:10,color:sb}}>{c.reviews} reviews</div></div>
+<div style={{textAlign:"right"}}><div style={{display:"flex",alignItems:"center",gap:4}}><Stars c={Math.round(c.rating)} s={12}/><span style={{fontSize:16,fontFamily:D,color:i===0?ac:tx}}>{c.rating}</span></div><div style={{fontSize:10,color:parseFloat(c.trend)>0?ac:parseFloat(c.trend)<0?"#B91C1C":sb,fontWeight:600}}>{parseFloat(c.trend)>0?"+":""}{c.trend}</div></div></div>))}
+<div className="afu" style={{animationDelay:"800ms",marginTop:14,padding:10,background:"#ECFDF5",borderRadius:8,textAlign:"center",fontSize:11,color:ac,fontWeight:600}}>You\u2019re #1 in your area. R.A.S. is keeping you ahead.</div></div>
+</Stagger>}
+
+{/* ===== GROWTH ===== */}
+{tab==="growth"&&<><div className="afu"><h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 20px",fontFamily:D}}>Review Growth Engine</h1></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:20}}>
+{[{v:s.req,l:"Requests Sent",c:"#4338CA"},{v:reviews.filter(r=>r.rating>=4).length,l:"Happy Customers",c:ac},{v:s.avg,l:"Current Rating",c:gd,dec:1}].map((x,i)=>(<div key={i} className="chl afu" style={{animationDelay:`${i*100}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16,textAlign:"center"}}><div style={{fontSize:28,fontFamily:D,color:x.c}}><CountUp target={x.v} decimals={x.dec||0}/></div><div style={{fontSize:10,color:sb}}>{x.l}</div></div>))}</div>
+{reviews.filter(r=>r.rating>=4&&r.status!=="review_requested").map((r,idx)=>(<div key={r.id} className="ch afu" style={{animationDelay:`${300+idx*70}ms`,display:"flex",alignItems:"center",gap:10,background:cd,border:`1px solid ${bd}`,borderRadius:10,padding:"10px 14px",marginBottom:5}}><PI p={r.plat}/><div style={{flex:1}}><span style={{fontSize:11,fontWeight:600}}>{r.author}</span><Stars c={r.rating} s={10}/><p style={{fontSize:10,color:sb,margin:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",maxWidth:340}}>{r.text}</p></div>
+<button onClick={()=>{setR(p=>p.map(x=>x.id===r.id?{...x,status:"review_requested"}:x));flash(`Sent to ${r.author}!`)}} className="ch" style={{background:"#4338CA",border:"none",color:"#fff",padding:"6px 14px",borderRadius:7,fontSize:10,fontWeight:700,fontFamily:F}}>{"\u{1F680}"} Send</button></div>))}</>}
+
+{/* ===== PRICING ===== */}
+{tab==="pricing"&&<Stagger base={0} gap={80}>
+<div style={{textAlign:"center",marginBottom:28}}>
+<div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2.5,marginBottom:6}}>R.A.S. FOR {niches[niche]?.toUpperCase()}</div>
+<h1 style={{fontSize:30,fontWeight:400,color:tx,margin:0,fontFamily:D}}>Simple pricing. Serious results.</h1>
+<p style={{fontSize:12,color:sb,margin:"6px 0 0"}}>14-day free trial \u2022 No credit card \u2022 30-day money-back guarantee</p>
+</div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14,maxWidth:820,margin:"0 auto"}}>
+{PLANS.map((p,pi)=>(<div key={p.n} className="chl afu" style={{animationDelay:`${200+pi*150}ms`,background:cd,border:`1px solid ${p.pop?ac:bd}`,borderRadius:16,padding:22,position:"relative",transform:p.pop?"scale(1.03)":"none",boxShadow:p.pop?"0 8px 30px rgba(26,92,58,0.08)":"none"}}>
+{p.pop&&<div className="asi" style={{animationDelay:"500ms",position:"absolute",top:-11,left:"50%",transform:"translateX(-50%)",background:ac,color:"#fff",fontSize:9,fontWeight:800,padding:"3px 14px",borderRadius:20,letterSpacing:1}}>MOST POPULAR</div>}
+<div style={{fontSize:12,fontWeight:700,color:p.pop?ac:sb,marginBottom:4}}>{p.n}</div>
+<div style={{display:"flex",alignItems:"baseline",gap:2,marginBottom:2}}><span style={{fontSize:38,fontFamily:D,color:tx,lineHeight:1}}>${p.pr}</span><span style={{fontSize:12,color:sb}}>/mo</span></div>
+<div style={{fontSize:10,color:sb,marginBottom:16}}>{p.d}</div>
+<button className="ch" style={{width:"100%",padding:"10px",background:p.pop?ac:"#EFECEA",border:p.pop?"none":`1px solid ${bd}`,color:p.pop?"#fff":tx,borderRadius:8,fontSize:12,fontWeight:700,fontFamily:F,marginBottom:14,transition:"all 0.3s"}}>Start Free Trial</button>
+<div style={{borderTop:`1px solid ${bd}`,paddingTop:12}}>{p.feat.map((f,j)=><div key={j} className="afu" style={{animationDelay:`${400+pi*100+j*60}ms`,display:"flex",gap:6,alignItems:"flex-start",marginBottom:6}}><span style={{color:ac,fontSize:11,flexShrink:0}}>{"\u2713"}</span><span style={{fontSize:11,color:"#5C5950",lineHeight:1.4}}>{f}</span></div>)}</div>
+</div>))}
+</div>
+<div style={{textAlign:"center",marginTop:24}}>
+<div style={{display:"inline-flex",alignItems:"center",gap:6,background:"#FFFBEB",border:"1px solid #FDE68A",borderRadius:10,padding:"10px 20px"}}>
+<span style={{fontSize:16}}>{"\u{1F3C6}"}</span>
+<span style={{fontSize:12,color:gd,fontWeight:700}}>30-Day Money-Back Guarantee \u2022 Zero Risk</span>
+</div>
+</div>
+</Stagger>}
+</div>
+</main>
+
+{toast&&<div className={toastOut?"tx":"te"} style={{position:"fixed",bottom:24,right:24,background:ac,color:"#fff",padding:"11px 22px",borderRadius:10,fontSize:12,fontWeight:700,boxShadow:"0 6px 20px rgba(26,92,58,0.15)",zIndex:200}}>{"\u2713"} {toast}</div>}
+</>);
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(RAS));
