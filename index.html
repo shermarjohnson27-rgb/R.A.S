@@ -1,4 +1,29 @@
-import { useState, useCallback } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>R.A.S. — Reputation Automated System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#FAFAF7;color:#18170F;min-height:100vh}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#D5D0C8;border-radius:2px}
+textarea:focus{outline:none;border-color:#1A5C3A!important}
+button{cursor:pointer;font-family:'DM Sans',system-ui,sans-serif}
+button:hover{opacity:0.92}
+#root{display:flex;min-height:100vh}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script type="text/babel">
+const { useState, useCallback } = React;
 
 const REVIEWS = [
   { id:1, plat:"google", author:"Sarah Mitchell", rating:5, text:"Best dental cleaning I've ever had! Dr. Johnson was amazing and the staff was incredibly friendly. Highly recommend!", date:"Mar 30", status:"auto_replied", sentiment:"positive", reply:"Thank you so much, Sarah! Dr. Johnson and our team love hearing this. Your comfort is always our priority — see you next visit!", at:"10:02 AM" },
@@ -21,9 +46,9 @@ const COMPETITORS = [
 ];
 
 const ACTIONS = {
-  alert_sent: [{ i:"📧",t:"Send private apology",p:"high" },{ i:"📞",t:"Call within 24 hours",p:"high" },{ i:"🎁",t:"Offer 50% off next visit",p:"med" },{ i:"💬",t:"Post empathetic public reply",p:"high" }],
-  response_ready: [{ i:"✅",t:"Approve public response",p:"high" },{ i:"📧",t:"Send private resolution",p:"high" },{ i:"💰",t:"Issue partial refund",p:"med" },{ i:"📋",t:"Schedule team training",p:"low" }],
-  owner_reviewing: [{ i:"🚨",t:"Respond within 2 hours",p:"high" },{ i:"📧",t:"Send personal apology + offer",p:"high" },{ i:"🎁",t:"Full refund + free service",p:"high" },{ i:"📋",t:"Investigate root cause",p:"high" }],
+  alert_sent: [{ i:"\u{1F4E7}",t:"Send private apology",p:"high" },{ i:"\u{1F4DE}",t:"Call within 24 hours",p:"high" },{ i:"\u{1F381}",t:"Offer 50% off next visit",p:"med" },{ i:"\u{1F4AC}",t:"Post empathetic public reply",p:"high" }],
+  response_ready: [{ i:"\u2705",t:"Approve public response",p:"high" },{ i:"\u{1F4E7}",t:"Send private resolution",p:"high" },{ i:"\u{1F4B0}",t:"Issue partial refund",p:"med" },{ i:"\u{1F4CB}",t:"Schedule team training",p:"low" }],
+  owner_reviewing: [{ i:"\u{1F6A8}",t:"Respond within 2 hours",p:"high" },{ i:"\u{1F4E7}",t:"Send personal apology + offer",p:"high" },{ i:"\u{1F381}",t:"Full refund + free service",p:"high" },{ i:"\u{1F4CB}",t:"Investigate root cause",p:"high" }],
 };
 
 const PLANS = [
@@ -32,51 +57,87 @@ const PLANS = [
   { n:"Empire",pr:99,d:"Full Revenue System",feat:["Everything in Growth","Recovery + Private Messages","Revenue Impact Calculator","Competitor Intelligence","Review Growth Engine","Multi-location","White-label"],pop:false },
 ];
 
-const Stars=({c,s=13})=><span style={{display:"inline-flex",gap:1}}>{[1,2,3,4,5].map(i=><svg key={i} width={s} height={s} viewBox="0 0 24 24" fill={i<=c?"#D97706":"#E5E7EB"} stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}</span>;
-const PI=({p})=>{const m={google:{b:"#4285F4",l:"G"},yelp:{b:"#D32323",l:"Y"},facebook:{b:"#1877F2",l:"f"}};const x=m[p]||m.google;return<span style={{background:x.b,color:"#fff",fontSize:9,fontWeight:800,width:22,height:22,borderRadius:6,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{x.l}</span>};
-const Pill=({t,children})=>{const c={auto_replied:{bg:"#ECFDF5",c:"#047857",b:"#A7F3D0"},pending:{bg:"#FFFBEB",c:"#A16207",b:"#FDE68A"},recovery:{bg:"#FEF2F2",c:"#B91C1C",b:"#FECACA"},review_requested:{bg:"#EEF2FF",c:"#4338CA",b:"#C7D2FE"}};const s=c[t]||c.pending;return<span style={{background:s.bg,color:s.c,border:`1px solid ${s.b}`,fontSize:9,fontWeight:700,padding:"2px 9px",borderRadius:20}}>{children}</span>};
-const TM={positive:{e:"😊",l:"Warm",c:"#047857"},neutral:{e:"🤝",l:"Attentive",c:"#A16207"},negative:{e:"🛡️",l:"Empathetic",c:"#B91C1C"}};
+const Stars = ({c, s=13}) => {
+  return React.createElement('span', {style:{display:"inline-flex",gap:1}},
+    [1,2,3,4,5].map(i =>
+      React.createElement('svg', {key:i, width:s, height:s, viewBox:"0 0 24 24", fill:i<=c?"#D97706":"#E5E7EB", stroke:"none"},
+        React.createElement('polygon', {points:"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"})
+      )
+    )
+  );
+};
 
-export default function RAS(){
-  const[reviews,setR]=useState(REVIEWS);
-  const[tab,setTab]=useState("landing");
-  const[sel,setSel]=useState(null);
-  const[ai,setAi]=useState("");
-  const[typ,setTyp]=useState(false);
-  const[ed,setEd]=useState("");
-  const[filt,setFilt]=useState("all");
-  const[toast,setT]=useState("");
-  const[msgT,setMT]=useState("public");
-  const[niche,setN]=useState("restaurant");
-  const[monthlyRev,setMR]=useState(30000);
+const PI = ({p}) => {
+  const m = {google:{b:"#4285F4",l:"G"},yelp:{b:"#D32323",l:"Y"},facebook:{b:"#1877F2",l:"f"}};
+  const x = m[p]||m.google;
+  return <span style={{background:x.b,color:"#fff",fontSize:9,fontWeight:800,width:22,height:22,borderRadius:6,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{x.l}</span>;
+};
 
-  const s={total:reviews.length,auto:reviews.filter(r=>r.status==="auto_replied").length,rec:reviews.filter(r=>r.status==="recovery").length,avg:(reviews.reduce((a,r)=>a+r.rating,0)/reviews.length).toFixed(1),rate:Math.round((reviews.filter(r=>r.reply).length/reviews.length)*100),req:reviews.filter(r=>r.status==="review_requested").length};
-  const jR=3.8;const gain=(parseFloat(s.avg)-jR).toFixed(1);
-  const revImpactLow=Math.round(monthlyRev*(parseFloat(gain)/1)*0.05);
-  const revImpactHigh=Math.round(monthlyRev*(parseFloat(gain)/1)*0.09);
-  const list=filt==="all"?reviews:filt==="needs"?reviews.filter(r=>r.status==="pending"||r.status==="recovery"):reviews.filter(r=>r.status===filt);
-  const flash=m=>{setT(m);setTimeout(()=>setT(""),3500)};
+const Pill = ({t, children}) => {
+  const c = {auto_replied:{bg:"#ECFDF5",c:"#047857",b:"#A7F3D0"},pending:{bg:"#FFFBEB",c:"#A16207",b:"#FDE68A"},recovery:{bg:"#FEF2F2",c:"#B91C1C",b:"#FECACA"},review_requested:{bg:"#EEF2FF",c:"#4338CA",b:"#C7D2FE"}};
+  const s = c[t]||c.pending;
+  return <span style={{background:s.bg,color:s.c,border:`1px solid ${s.b}`,fontSize:9,fontWeight:700,padding:"2px 9px",borderRadius:20}}>{children}</span>;
+};
 
-  const gen=useCallback(r=>{
-    setSel(r);setTyp(true);setAi("");setMT("public");
-    const t={positive:`Thank you so much, ${r.author.split(" ")[0]}! Your kind words mean the world to our team. We work hard every day to deliver this experience. Can't wait to welcome you back!`,neutral:`Thank you for the honest feedback, ${r.author.split(" ")[0]}! We appreciate you sharing your experience. We're actively working on improvements. We'd love to exceed your expectations next time.`,negative:`${r.author.split(" ")[0]}, we sincerely apologize. This falls below our standard and we take full responsibility. We've flagged this with our team. Please reach out at [phone/email] so we can make this right.`};
-    const full=t[r.sentiment]||t.neutral;let i=0;
-    const iv=setInterval(()=>{setAi(full.slice(0,i));i+=3;if(i>full.length){clearInterval(iv);setTyp(false);setEd(full)}},12);
+const TM = {positive:{e:"\u{1F60A}",l:"Warm",c:"#047857"},neutral:{e:"\u{1F91D}",l:"Attentive",c:"#A16207"},negative:{e:"\u{1F6E1}\uFE0F",l:"Empathetic",c:"#B91C1C"}};
+
+function RAS() {
+  const [reviews, setR] = useState(REVIEWS);
+  const [tab, setTab] = useState("landing");
+  const [sel, setSel] = useState(null);
+  const [ai, setAi] = useState("");
+  const [typ, setTyp] = useState(false);
+  const [ed, setEd] = useState("");
+  const [filt, setFilt] = useState("all");
+  const [toast, setT] = useState("");
+  const [msgT, setMT] = useState("public");
+  const [niche, setN] = useState("restaurant");
+  const [monthlyRev, setMR] = useState(30000);
+
+  const s = {
+    total: reviews.length,
+    auto: reviews.filter(r=>r.status==="auto_replied").length,
+    rec: reviews.filter(r=>r.status==="recovery").length,
+    avg: (reviews.reduce((a,r)=>a+r.rating,0)/reviews.length).toFixed(1),
+    rate: Math.round((reviews.filter(r=>r.reply).length/reviews.length)*100),
+    req: reviews.filter(r=>r.status==="review_requested").length
+  };
+  const jR = 3.8;
+  const gain = (parseFloat(s.avg)-jR).toFixed(1);
+  const revImpactLow = Math.round(monthlyRev*(parseFloat(gain)/1)*0.05);
+  const revImpactHigh = Math.round(monthlyRev*(parseFloat(gain)/1)*0.09);
+  const list = filt==="all"?reviews:filt==="needs"?reviews.filter(r=>r.status==="pending"||r.status==="recovery"):reviews.filter(r=>r.status===filt);
+  const flash = m => { setT(m); setTimeout(()=>setT(""),3500); };
+
+  const gen = useCallback(r => {
+    setSel(r); setTyp(true); setAi(""); setMT("public");
+    const t = {
+      positive: `Thank you so much, ${r.author.split(" ")[0]}! Your kind words mean the world to our team. We work hard every day to deliver this experience. Can't wait to welcome you back!`,
+      neutral: `Thank you for the honest feedback, ${r.author.split(" ")[0]}! We appreciate you sharing your experience. We're actively working on improvements. We'd love to exceed your expectations next time.`,
+      negative: `${r.author.split(" ")[0]}, we sincerely apologize. This falls below our standard and we take full responsibility. We've flagged this with our team. Please reach out at [phone/email] so we can make this right.`
+    };
+    const full = t[r.sentiment]||t.neutral;
+    let i = 0;
+    const iv = setInterval(()=>{ setAi(full.slice(0,i)); i+=3; if(i>full.length){ clearInterval(iv); setTyp(false); setEd(full); } },12);
   },[]);
 
-  const approve=()=>{setR(p=>p.map(r=>r.id===sel.id?{...r,status:"auto_replied",reply:ed,at:"Just now"}:r));flash("Reply published!");setSel(null);setAi("")};
+  const approve = () => {
+    setR(p=>p.map(r=>r.id===sel.id?{...r,status:"auto_replied",reply:ed,at:"Just now"}:r));
+    flash("Reply published!");
+    setSel(null);
+    setAi("");
+  };
 
-  const F="'DM Sans',system-ui,sans-serif";
-  const D="'Instrument Serif','Georgia',serif";
-  const bg="#FAFAF7";const cd="#FFFFFF";const bd="#E5E2DC";const tx="#18170F";const sb="#8A8578";const ac="#1A5C3A";
+  const F = "'DM Sans',system-ui,sans-serif";
+  const D = "'Instrument Serif','Georgia',serif";
+  const bg = "#FAFAF7"; const cd = "#FFFFFF"; const bd = "#E5E2DC"; const tx = "#18170F"; const sb = "#8A8578"; const ac = "#1A5C3A";
 
-  const niches={restaurant:"Restaurants",barber:"Barbershops",dental:"Dental Practices",contractor:"Contractors",gym:"Gyms"};
-  const navI=[{id:"landing",l:"Home"},{id:"dashboard",l:"Dashboard"},{id:"reviews",l:"Reviews"},{id:"recovery",l:"Recovery"},{id:"profile",l:"Profile Score"},{id:"roi",l:"ROI & Intel"},{id:"growth",l:"Growth"},{id:"pricing",l:"Pricing"}];
+  const niches = {restaurant:"Restaurants",barber:"Barbershops",dental:"Dental Practices",contractor:"Contractors",gym:"Gyms"};
+  const navI = [{id:"landing",l:"Home"},{id:"dashboard",l:"Dashboard"},{id:"reviews",l:"Reviews"},{id:"recovery",l:"Recovery"},{id:"roi",l:"ROI & Intel"},{id:"growth",l:"Growth"},{id:"pricing",l:"Pricing"}];
 
-  return(
-    <div style={{fontFamily:F,background:bg,color:tx,minHeight:"100vh",display:"flex"}}>
-      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
-
+  return (
+    <>
+      {/* SIDEBAR */}
       <nav style={{width:218,background:cd,borderRight:`1px solid ${bd}`,padding:"22px 12px",display:"flex",flexDirection:"column",flexShrink:0}}>
         <div style={{padding:"0 8px",marginBottom:32}}>
           <div style={{fontSize:22,fontWeight:400,color:tx,fontFamily:D,letterSpacing:-0.5,lineHeight:1.1}}>R.A.S.</div>
@@ -94,7 +155,7 @@ export default function RAS(){
           <div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:1.5,marginBottom:6}}>RATING PROGRESS</div>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
             <span style={{fontSize:11,color:sb}}>{jR}</span>
-            <span style={{fontSize:10,color:ac}}>→</span>
+            <span style={{fontSize:10,color:ac}}>{"\u2192"}</span>
             <span style={{fontSize:18,fontWeight:700,color:ac,fontFamily:D}}>{s.avg}</span>
           </div>
           <div style={{background:"#DBD8D2",borderRadius:3,height:5,marginTop:6,overflow:"hidden"}}>
@@ -104,6 +165,7 @@ export default function RAS(){
         </div>
       </nav>
 
+      {/* MAIN CONTENT */}
       <main style={{flex:1,padding:"28px 36px",overflow:"auto",maxHeight:"100vh"}}>
 
         {/* LANDING */}
@@ -119,9 +181,8 @@ export default function RAS(){
             <button onClick={()=>setTab("dashboard")} style={{background:ac,color:"#fff",border:"none",padding:"14px 32px",borderRadius:8,fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:F}}>See It In Action</button>
             <button onClick={()=>setTab("pricing")} style={{background:cd,color:tx,border:`1px solid ${bd}`,padding:"14px 32px",borderRadius:8,fontSize:14,fontWeight:500,cursor:"pointer",fontFamily:F}}>View Pricing</button>
           </div>
-
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14,marginBottom:32}}>
-            {[{i:"🤖",t:"Auto-Respond",d:"AI replies to every review in your voice. Positive auto-posts. Negative gets flagged."},{i:"🛡️",t:"Reputation Shield",d:"Bad review? Instant alert + public reply + private resolution message to win them back."},{i:"📈",t:"Revenue Impact",d:"Harvard-backed ROI calculator shows the exact dollar value of your rating improvement."}].map((f,i)=>(
+            {[{i:"\u{1F916}",t:"Auto-Respond",d:"AI replies to every review in your voice. Positive auto-posts. Negative gets flagged."},{i:"\u{1F6E1}\uFE0F",t:"Reputation Shield",d:"Bad review? Instant alert + public reply + private resolution message to win them back."},{i:"\u{1F4C8}",t:"Revenue Impact",d:"Harvard-backed ROI calculator shows the exact dollar value of your rating improvement."}].map((f,i)=>(
               <div key={i} style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:20}}>
                 <div style={{fontSize:26,marginBottom:8}}>{f.i}</div>
                 <div style={{fontSize:14,fontWeight:600,color:tx,marginBottom:4}}>{f.t}</div>
@@ -129,13 +190,11 @@ export default function RAS(){
               </div>
             ))}
           </div>
-
           <div style={{background:"#EFECEA",borderRadius:14,padding:24,textAlign:"center"}}>
             <div style={{fontSize:14,color:sb,fontFamily:D,fontStyle:"italic"}}>Not a tool. Not software.</div>
             <div style={{fontSize:24,fontWeight:400,color:ac,fontFamily:D,margin:"6px 0 10px"}}>An Automated Reputation Growth System.</div>
             <div style={{fontSize:12,color:sb}}>Starting at $29/month. 14-day free trial.</div>
           </div>
-
           <div style={{marginTop:28,padding:20,background:cd,border:`1px solid ${bd}`,borderRadius:12}}>
             <div style={{fontSize:9,color:ac,fontWeight:700,letterSpacing:2,marginBottom:6}}>HARVARD BUSINESS SCHOOL RESEARCH</div>
             <div style={{fontSize:14,fontFamily:D,color:tx,lineHeight:1.6}}>A one-star increase in online rating leads to a <b style={{color:ac}}>5-9% increase in revenue</b>. For a business making $30,000/month, a half-star improvement means <b style={{color:ac}}>$1,500-$2,700/month in additional revenue</b>.</div>
@@ -147,15 +206,13 @@ export default function RAS(){
         {tab==="dashboard"&&<>
           <h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 4px",fontFamily:D}}>Command Center</h1>
           <p style={{fontSize:12,color:sb,margin:"0 0 22px"}}>Real-time reputation intelligence</p>
-
           {s.rec>0&&<div onClick={()=>setTab("recovery")} style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:12,padding:"12px 18px",marginBottom:16,cursor:"pointer",display:"flex",alignItems:"center",gap:12}}>
-            <span style={{fontSize:20}}>🚨</span>
+            <span style={{fontSize:20}}>{"\u{1F6A8}"}</span>
             <div style={{flex:1}}><div style={{fontSize:12,fontWeight:700,color:"#B91C1C"}}>{s.rec} Negative Reviews — Recovery Actions Ready</div><div style={{fontSize:11,color:sb}}>Public replies + private messages drafted</div></div>
-            <span style={{color:"#B91C1C",fontSize:11,fontWeight:600}}>View →</span>
+            <span style={{color:"#B91C1C",fontSize:11,fontWeight:600}}>View {"\u2192"}</span>
           </div>}
-
           <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:20}}>
-            {[{i:"💬",v:s.total,l:"Reviews",u:"+3 this week",c:ac},{i:"🤖",v:s.rate+"%",l:"Response Rate",u:"Avg: 25%",c:"#2563EB"},{i:"⭐",v:s.avg,l:"Rating",u:`+${gain} since joining`,c:"#D97706"},{i:"💰",v:`$${revImpactLow.toLocaleString()}`,l:"Est. Revenue Impact",u:`Up to $${revImpactHigh.toLocaleString()}/mo`,c:ac}].map((x,i)=>(
+            {[{i:"\u{1F4AC}",v:s.total,l:"Reviews",u:"+3 this week",c:ac},{i:"\u{1F916}",v:s.rate+"%",l:"Response Rate",u:"Avg: 25%",c:"#2563EB"},{i:"\u2B50",v:s.avg,l:"Rating",u:`+${gain} since joining`,c:"#D97706"},{i:"\u{1F4B0}",v:`$${revImpactLow.toLocaleString()}`,l:"Est. Revenue Impact",u:`Up to $${revImpactHigh.toLocaleString()}/mo`,c:ac}].map((x,i)=>(
               <div key={i} style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:"16px 18px"}}>
                 <div style={{fontSize:18,marginBottom:4}}>{x.i}</div>
                 <div style={{fontSize:24,fontWeight:400,color:tx,fontFamily:D,lineHeight:1}}>{x.v}</div>
@@ -164,26 +221,23 @@ export default function RAS(){
               </div>
             ))}
           </div>
-
-          {/* Rating Timeline */}
           <div style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:18,marginBottom:16}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
               <span style={{fontSize:14,fontFamily:D,color:tx}}>Rating Improvement</span>
-              <Pill t="auto_replied">↑ {gain} stars</Pill>
+              <Pill t="auto_replied">{"\u2191"} {gain} stars</Pill>
             </div>
             <div style={{display:"flex",gap:10,alignItems:"center"}}>
               <div style={{textAlign:"center",padding:"10px 18px",background:"#FEF2F2",borderRadius:8}}>
                 <div style={{fontSize:8,color:"#B91C1C",fontWeight:700}}>BEFORE</div>
                 <div style={{fontSize:24,fontFamily:D,color:"#B91C1C"}}>{jR}</div>
               </div>
-              <div style={{flex:1,height:3,background:`linear-gradient(90deg,#FECACA,#A7F3D0)`,borderRadius:2}}/>
+              <div style={{flex:1,height:3,background:"linear-gradient(90deg,#FECACA,#A7F3D0)",borderRadius:2}}/>
               <div style={{textAlign:"center",padding:"10px 18px",background:"#ECFDF5",borderRadius:8}}>
                 <div style={{fontSize:8,color:ac,fontWeight:700}}>NOW</div>
                 <div style={{fontSize:24,fontFamily:D,color:ac}}>{s.avg}</div>
               </div>
             </div>
           </div>
-
           <div style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16}}>
             <span style={{fontSize:14,fontFamily:D,color:tx}}>Recent Activity</span>
             {reviews.filter(r=>r.reply).slice(0,4).map((r,i)=>(
@@ -211,12 +265,12 @@ export default function RAS(){
                   <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:5,flexWrap:"wrap"}}>
                     <PI p={r.plat}/><span style={{fontSize:11,fontWeight:700}}>{r.author}</span><Stars c={r.rating} s={11}/>
                     <span style={{background:`${tone.c}10`,color:tone.c,fontSize:8,padding:"2px 7px",borderRadius:4,fontWeight:600}}>{tone.e} {tone.l}</span>
-                    <Pill t={r.status}>{r.status==="auto_replied"?"✓ Replied":r.status==="recovery"?"🛡️ Recovery":r.status==="review_requested"?"📩 Sent":"⏳ Pending"}</Pill>
+                    <Pill t={r.status}>{r.status==="auto_replied"?"\u2713 Replied":r.status==="recovery"?"\u{1F6E1}\uFE0F Recovery":r.status==="review_requested"?"\u{1F4E9} Sent":"\u231B Pending"}</Pill>
                     <span style={{marginLeft:"auto",fontSize:9,color:"#B5B0A6"}}>{r.date}</span>
                   </div>
                   <p style={{fontSize:11,color:"#5C5950",margin:0,lineHeight:1.6}}>{r.text}</p>
                   {r.reply&&<div style={{marginTop:8,padding:"8px 10px",background:"#F5FAF7",borderLeft:`2px solid ${ac}`,borderRadius:"0 6px 6px 0"}}>
-                    <div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:2}}>PUBLIC REPLY • {r.at}</div>
+                    <div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:2}}>PUBLIC REPLY {"\u2022"} {r.at}</div>
                     <p style={{fontSize:10,color:"#5C5950",margin:0,lineHeight:1.5}}>{r.reply}</p>
                   </div>}
                   {r.priv&&<div style={{marginTop:4,padding:"8px 10px",background:"#EEF2FF",borderLeft:"2px solid #4338CA",borderRadius:"0 6px 6px 0"}}>
@@ -234,21 +288,21 @@ export default function RAS(){
                   <p style={{fontSize:10,color:sb,margin:0,lineHeight:1.5}}>{sel.text}</p>
                 </div>
                 {sel.sentiment==="negative"&&<div style={{display:"flex",gap:4,marginBottom:10}}>
-                  <button onClick={()=>setMT("public")} style={{flex:1,background:msgT==="public"?ac:"#EFECEA",color:msgT==="public"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F}}>💬 Public</button>
-                  <button onClick={()=>setMT("private")} style={{flex:1,background:msgT==="private"?"#4338CA":"#EFECEA",color:msgT==="private"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F}}>📧 Private</button>
+                  <button onClick={()=>setMT("public")} style={{flex:1,background:msgT==="public"?ac:"#EFECEA",color:msgT==="public"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u{1F4AC}"} Public</button>
+                  <button onClick={()=>setMT("private")} style={{flex:1,background:msgT==="private"?"#4338CA":"#EFECEA",color:msgT==="private"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u{1F4E7}"} Private</button>
                 </div>}
                 {msgT==="private"&&sel.priv?<>
                   <div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:4}}>PRIVATE RESOLUTION MESSAGE</div>
                   <textarea value={sel.priv} readOnly style={{width:"100%",minHeight:120,background:"#F6F5FF",border:"1px solid #C7D2FE",borderRadius:8,padding:10,color:tx,fontSize:11,lineHeight:1.6,fontFamily:F,boxSizing:"border-box",resize:"vertical"}}/>
-                  <button onClick={()=>flash("Private message sent!")} style={{width:"100%",background:"#4338CA",border:"none",color:"#fff",padding:"9px",borderRadius:8,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:F,marginTop:8}}>📧 Send Private Message</button>
+                  <button onClick={()=>flash("Private message sent!")} style={{width:"100%",background:"#4338CA",border:"none",color:"#fff",padding:"9px",borderRadius:8,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:F,marginTop:8}}>{"\u{1F4E7}"} Send Private Message</button>
                 </>:<>
-                  {!ai&&!typ&&<button onClick={()=>gen(sel)} style={{width:"100%",background:ac,border:"none",color:"#fff",padding:"10px",borderRadius:8,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:F}}>⚡ Generate Reply</button>}
+                  {!ai&&!typ&&<button onClick={()=>gen(sel)} style={{width:"100%",background:ac,border:"none",color:"#fff",padding:"10px",borderRadius:8,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u26A1"} Generate Reply</button>}
                   {(ai||typ)&&<>
-                    <div style={{fontSize:8,color:typ?ac:sb,fontWeight:700,marginBottom:4}}>{typ?"GENERATING...":"✓ READY"}</div>
+                    <div style={{fontSize:8,color:typ?ac:sb,fontWeight:700,marginBottom:4}}>{typ?"GENERATING...":"\u2713 READY"}</div>
                     <textarea value={typ?ai:ed} onChange={e=>setEd(e.target.value)} disabled={typ} style={{width:"100%",minHeight:110,background:"#F9F8F6",border:`1px solid ${bd}`,borderRadius:8,padding:10,color:tx,fontSize:11,lineHeight:1.6,fontFamily:F,boxSizing:"border-box",resize:"vertical"}}/>
                     {!typ&&<div style={{display:"flex",gap:6,marginTop:8}}>
-                      <button onClick={approve} style={{flex:1,background:ac,border:"none",color:"#fff",padding:"9px",borderRadius:7,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:F}}>✓ Publish</button>
-                      <button onClick={()=>gen(sel)} style={{background:"#EFECEA",border:`1px solid ${bd}`,color:sb,padding:"9px 12px",borderRadius:7,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:F}}>↻</button>
+                      <button onClick={approve} style={{flex:1,background:ac,border:"none",color:"#fff",padding:"9px",borderRadius:7,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u2713"} Publish</button>
+                      <button onClick={()=>gen(sel)} style={{background:"#EFECEA",border:`1px solid ${bd}`,color:sb,padding:"9px 12px",borderRadius:7,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:F}}>{"\u21BB"}</button>
                     </div>}
                   </>}
                 </>}
@@ -261,7 +315,7 @@ export default function RAS(){
         {tab==="recovery"&&<>
           <h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 20px",fontFamily:D}}>Negative Review Recovery</h1>
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:20}}>
-            {[{s:"alert_sent",l:"Alert Sent",i:"🚨",c:"#B91C1C"},{s:"response_ready",l:"Ready",i:"📝",c:"#D97706"},{s:"owner_reviewing",l:"Reviewing",i:"👁️",c:"#2563EB"}].map(x=>(
+            {[{s:"alert_sent",l:"Alert Sent",i:"\u{1F6A8}",c:"#B91C1C"},{s:"response_ready",l:"Ready",i:"\u{1F4DD}",c:"#D97706"},{s:"owner_reviewing",l:"Reviewing",i:"\u{1F441}\uFE0F",c:"#2563EB"}].map(x=>(
               <div key={x.s} style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16,textAlign:"center"}}>
                 <div style={{fontSize:24}}>{x.i}</div>
                 <div style={{fontSize:20,fontFamily:D,color:tx}}>{reviews.filter(r=>r.stage===x.s).length}</div>
@@ -276,15 +330,15 @@ export default function RAS(){
                   <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4}}><PI p={r.plat}/><span style={{fontSize:12,fontWeight:700}}>{r.author}</span><Stars c={r.rating} s={11}/></div>
                   <p style={{fontSize:11,color:"#5C5950",margin:0,lineHeight:1.6,maxWidth:440}}>{r.text}</p>
                 </div>
-                <button onClick={()=>{setSel(r);setTab("reviews");setAi("");setEd("")}} style={{background:"#FEF2F2",border:"1px solid #FECACA",color:"#B91C1C",padding:"6px 12px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F,height:"fit-content"}}>Respond →</button>
+                <button onClick={()=>{setSel(r);setTab("reviews");setAi("");setEd("")}} style={{background:"#FEF2F2",border:"1px solid #FECACA",color:"#B91C1C",padding:"6px 12px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F,height:"fit-content"}}>Respond {"\u2192"}</button>
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10}}>
                 <div style={{background:"#F5FAF7",border:"1px solid #A7F3D0",borderRadius:8,padding:10}}>
-                  <div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:3}}>💬 PUBLIC REPLY</div>
+                  <div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:3}}>{"\u{1F4AC}"} PUBLIC REPLY</div>
                   <div style={{fontSize:10,color:"#5C5950"}}>Empathetic public response drafted</div>
                 </div>
                 <div style={{background:"#F6F5FF",border:"1px solid #C7D2FE",borderRadius:8,padding:10}}>
-                  <div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:3}}>📧 PRIVATE MESSAGE</div>
+                  <div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:3}}>{"\u{1F4E7}"} PRIVATE MESSAGE</div>
                   <div style={{fontSize:10,color:"#5C5950"}}>{r.priv?r.priv.slice(0,70)+"...":"Resolution message ready"}</div>
                 </div>
               </div>
@@ -304,96 +358,8 @@ export default function RAS(){
         </>}
 
         {/* ROI & COMPETITOR INTEL */}
-        {tab==="profile"&&<>
-          <h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 20px",fontFamily:D}}>Google Profile Health Score</h1>
-          {(()=>{
-            const checks=[
-              {cat:"Foundation",items:[
-                {name:"Business name matches signage",done:true,pts:10},
-                {name:"Address verified and accurate",done:true,pts:10},
-                {name:"Phone number listed",done:true,pts:5},
-                {name:"Website URL linked",done:true,pts:5},
-                {name:"Business hours set",done:true,pts:5},
-                {name:"Special/holiday hours set",done:false,pts:3},
-              ]},
-              {cat:"Categories & Services",items:[
-                {name:"Primary category selected correctly",done:true,pts:10},
-                {name:"3+ secondary categories added",done:true,pts:5},
-                {name:"All services listed with descriptions",done:false,pts:7},
-                {name:"Business description written (750 chars)",done:true,pts:5},
-              ]},
-              {cat:"Visual Content",items:[
-                {name:"Logo uploaded",done:true,pts:3},
-                {name:"Cover photo set",done:true,pts:3},
-                {name:"15+ total photos uploaded",done:false,pts:5},
-                {name:"Photos uploaded in last 7 days",done:false,pts:5},
-                {name:"Video uploaded",done:false,pts:3},
-              ]},
-              {cat:"Reviews & Engagement",items:[
-                {name:"Average rating above 4.0",done:true,pts:5},
-                {name:"10+ total reviews",done:true,pts:5},
-                {name:"Review received in last 30 days",done:true,pts:5},
-                {name:"100% review response rate",done:false,pts:7},
-              ]},
-              {cat:"Content & Activity",items:[
-                {name:"Google Post in last 7 days",done:false,pts:5},
-                {name:"Q&A section has 5+ seeded questions",done:false,pts:4},
-                {name:"Messaging enabled",done:false,pts:3},
-                {name:"Appointment/booking link set",done:false,pts:3},
-              ]},
-            ];
-            const totalPts=checks.reduce((a,c)=>a+c.items.reduce((b,i)=>b+i.pts,0),0);
-            const earnedPts=checks.reduce((a,c)=>a+c.items.filter(i=>i.done).reduce((b,i)=>b+i.pts,0),0);
-            const score=Math.round((earnedPts/totalPts)*100);
-            const scoreColor=score>=80?ac:score>=60?"#D97706":"#B91C1C";
-            return <>
-              <div style={{display:"flex",gap:20,marginBottom:24}}>
-                <div style={{width:200,background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:24,textAlign:"center"}}>
-                  <div style={{fontSize:48,fontWeight:400,color:scoreColor,fontFamily:D,lineHeight:1}}>{score}</div>
-                  <div style={{fontSize:11,color:sb,marginTop:4}}>out of 100</div>
-                  <div style={{background:"#E5E2DC",borderRadius:4,height:8,marginTop:12,overflow:"hidden"}}>
-                    <div style={{width:`${score}%`,height:"100%",background:scoreColor,borderRadius:4,transition:"width 1s"}}/>
-                  </div>
-                  <div style={{fontSize:10,color:scoreColor,fontWeight:600,marginTop:8}}>{score>=80?"Excellent":score>=60?"Good — Room to Improve":score>=40?"Needs Work":"Critical — Fix Now"}</div>
-                </div>
-                <div style={{flex:1,background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:20}}>
-                  <div style={{fontSize:14,fontFamily:D,color:tx,marginBottom:10}}>What This Score Means</div>
-                  <div style={{fontSize:12,color:"#5C5950",lineHeight:1.7}}>
-                    Your Google Business Profile is <b>{score}% optimized</b>. Google uses your profile completeness, activity, and engagement to decide where you rank on Google Maps. The top 3 listings get 60% of all clicks. Every unchecked item below is costing you visibility and customers.
-                  </div>
-                  <div style={{marginTop:12,padding:10,background:"#F5FAF7",borderRadius:8,fontSize:11,color:ac,fontWeight:600}}>
-                    Fixing all red items could improve your local ranking by 15-30% based on 2026 ranking factor data.
-                  </div>
-                </div>
-              </div>
-              {checks.map((cat,ci)=>{
-                const catDone=cat.items.filter(i=>i.done).length;
-                return <div key={ci} style={{background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:18,marginBottom:10}}>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-                    <span style={{fontSize:13,fontWeight:700,color:tx}}>{cat.cat}</span>
-                    <span style={{fontSize:11,color:catDone===cat.items.length?ac:"#D97706",fontWeight:600}}>{catDone}/{cat.items.length} complete</span>
-                  </div>
-                  {cat.items.map((item,ii)=>(
-                    <div key={ii} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderBottom:ii<cat.items.length-1?`1px solid ${bd}`:"none"}}>
-                      <div style={{width:22,height:22,borderRadius:6,background:item.done?"#ECFDF5":"#FEF2F2",border:`1px solid ${item.done?"#A7F3D0":"#FECACA"}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,flexShrink:0}}>
-                        {item.done?"✓":"✗"}
-                      </div>
-                      <span style={{fontSize:12,color:item.done?"#5C5950":"#B91C1C",flex:1,fontWeight:item.done?400:600}}>{item.name}</span>
-                      <span style={{fontSize:10,color:sb,flexShrink:0}}>+{item.pts} pts</span>
-                      {!item.done&&<button style={{background:"#FEF2F2",border:"1px solid #FECACA",color:"#B91C1C",padding:"3px 10px",borderRadius:6,fontSize:9,fontWeight:700,cursor:"pointer",fontFamily:F,flexShrink:0}}>Fix This</button>}
-                    </div>
-                  ))}
-                </div>
-              })}
-            </>
-          })()}
-        </>}
-
-        {/* ROI & COMPETITOR INTEL */}
         {tab==="roi"&&<>
           <h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 20px",fontFamily:D}}>ROI & Competitor Intelligence</h1>
-
-          {/* Revenue Impact Calculator */}
           <div style={{background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22,marginBottom:16}}>
             <div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2,marginBottom:10}}>REVENUE IMPACT CALCULATOR</div>
             <div style={{fontSize:13,fontFamily:D,color:tx,marginBottom:14}}>Based on Harvard Business School research: 1 star = 5-9% revenue increase</div>
@@ -423,20 +389,16 @@ export default function RAS(){
               </div>
             </div>
             <div style={{marginTop:14,padding:12,background:"#F5FAF7",borderRadius:8,textAlign:"center"}}>
-              <span style={{fontSize:12,color:ac,fontWeight:700}}>You pay $99/mo → R.A.S. generates ${revImpactLow.toLocaleString()}-${revImpactHigh.toLocaleString()}/mo.</span>
+              <span style={{fontSize:12,color:ac,fontWeight:700}}>You pay $99/mo {"\u2192"} R.A.S. generates ${revImpactLow.toLocaleString()}-${revImpactHigh.toLocaleString()}/mo.</span>
               <span style={{fontSize:12,color:ac,fontWeight:600}}> That's a {Math.round(revImpactLow/99)}x-{Math.round(revImpactHigh/99)}x return.</span>
             </div>
           </div>
-
-          {/* Competitor Spy */}
           <div style={{background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22}}>
             <div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2,marginBottom:10}}>COMPETITOR INTELLIGENCE</div>
             <div style={{fontSize:13,fontFamily:D,color:tx,marginBottom:14}}>How you stack up against local competitors</div>
             {COMPETITORS.map((c,i)=>(
               <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 0",borderBottom:i<COMPETITORS.length-1?`1px solid ${bd}`:"none"}}>
-                <div style={{width:28,height:28,borderRadius:6,background:i===0?ac:"#EFECEA",color:i===0?"#fff":sb,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700}}>
-                  {i+1}
-                </div>
+                <div style={{width:28,height:28,borderRadius:6,background:i===0?ac:"#EFECEA",color:i===0?"#fff":sb,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700}}>{i+1}</div>
                 <div style={{flex:1}}>
                   <div style={{display:"flex",alignItems:"center",gap:8}}>
                     <span style={{fontSize:13,fontWeight:i===0?700:500,color:i===0?ac:tx}}>{c.name}</span>
@@ -474,7 +436,7 @@ export default function RAS(){
             <div key={r.id} style={{display:"flex",alignItems:"center",gap:10,background:cd,border:`1px solid ${bd}`,borderRadius:10,padding:"10px 14px",marginBottom:5}}>
               <PI p={r.plat}/>
               <div style={{flex:1}}><span style={{fontSize:11,fontWeight:600}}>{r.author}</span><Stars c={r.rating} s={10}/><p style={{fontSize:10,color:sb,margin:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",maxWidth:340}}>{r.text}</p></div>
-              <button onClick={()=>{setR(p=>p.map(x=>x.id===r.id?{...x,status:"review_requested"}:x));flash(`Sent to ${r.author}!`)}} style={{background:"#4338CA",border:"none",color:"#fff",padding:"6px 14px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F}}>🚀 Send</button>
+              <button onClick={()=>{setR(p=>p.map(x=>x.id===r.id?{...x,status:"review_requested"}:x));flash(`Sent to ${r.author}!`)}} style={{background:"#4338CA",border:"none",color:"#fff",padding:"6px 14px",borderRadius:7,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:F}}>{"\u{1F680}"} Send</button>
             </div>
           ))}
         </>}
@@ -495,7 +457,7 @@ export default function RAS(){
                 <div style={{fontSize:10,color:sb,marginBottom:16}}>{p.d}</div>
                 <button style={{width:"100%",padding:"10px",background:p.pop?ac:"#EFECEA",border:p.pop?"none":`1px solid ${bd}`,color:p.pop?"#fff":tx,borderRadius:8,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:F,marginBottom:14}}>Start Free Trial</button>
                 <div style={{borderTop:`1px solid ${bd}`,paddingTop:12}}>
-                  {p.feat.map((f,j)=><div key={j} style={{display:"flex",gap:6,alignItems:"flex-start",marginBottom:6}}><span style={{color:ac,fontSize:11,flexShrink:0}}>✓</span><span style={{fontSize:11,color:"#5C5950",lineHeight:1.4}}>{f}</span></div>)}
+                  {p.feat.map((f,j)=><div key={j} style={{display:"flex",gap:6,alignItems:"flex-start",marginBottom:6}}><span style={{color:ac,fontSize:11,flexShrink:0}}>{"\u2713"}</span><span style={{fontSize:11,color:"#5C5950",lineHeight:1.4}}>{f}</span></div>)}
                 </div>
               </div>
             ))}
@@ -503,8 +465,12 @@ export default function RAS(){
         </>}
       </main>
 
-      {toast&&<div style={{position:"fixed",bottom:24,right:24,background:ac,color:"#fff",padding:"11px 22px",borderRadius:10,fontSize:12,fontWeight:700,boxShadow:"0 6px 20px rgba(26,92,58,0.15)",zIndex:200}}>✓ {toast}</div>}
-      <style>{`::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#D5D0C8;border-radius:2px}textarea:focus{outline:none;border-color:${ac}!important}button:hover{opacity:0.92}`}</style>
-    </div>
+      {toast&&<div style={{position:"fixed",bottom:24,right:24,background:ac,color:"#fff",padding:"11px 22px",borderRadius:10,fontSize:12,fontWeight:700,boxShadow:"0 6px 20px rgba(26,92,58,0.15)",zIndex:200}}>{"\u2713"} {toast}</div>}
+    </>
   );
 }
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(RAS));
+</script>
+</body>
+</html>
