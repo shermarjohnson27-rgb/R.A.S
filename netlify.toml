@@ -1,0 +1,28 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Environment variables (set these in Netlify dashboard > Site settings > Environment variables)
+# STRIPE_SECRET_KEY = sk_test_... (or sk_live_... for production)
+# STRIPE_WEBHOOK_SECRET = whsec_... (get this from Stripe dashboard > Webhooks)
+
+# Redirect API calls to functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[dev]
+  port = 8888
+  targetPort = 5173
+  autoLaunch = false
